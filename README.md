@@ -1,16 +1,14 @@
-# cumtguide
+# CUMT新生指南
 
-A new Flutter project.
+## 简介
 
-## Getting Started
+## commit规范
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+| Commit类型 | 表情符号 | 意义                    | 样例                                        |
+| ---------- | -------- | ----------------------- |-------------------------------------------|
+| init       | 🎉        | 初始化一个仓库          | ![img](./docs/images/readme_init.png)     |
+| feature    | ✨        | 添加新功能              | ![img](./docs/images/readme_feature.png)  |
+| bugfix     | 🐛        | 修复了一些bug           | ![img](./docs/images/readme_bugfix.png)   |
+| optimize   | 🎨        | 功能优化                | ![img](./docs/images/readme_optimize.png) |
+| refactor   | ♻️        | 代码重构                | ![img](./docs/images/readme_refactor.png) |
+| docs       | 📑        | 修改了文档（README.md） | ![img](./docs/images/readme_docs.png)     |
