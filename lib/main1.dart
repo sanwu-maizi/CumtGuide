@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cumt_guide/HomePage/button_index/button_index.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,60 +29,135 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  List<String> items = [
+    '教务信息',
+    '医保',
+    '转专业',
+    '新生指南',
+    '教务信息1',
+    '教务信息2',
+    '教务信息3',
+    '教务信息4',
+    '教务信息',
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title),
+      ),
       body: Column(
         children: [
           Expanded(
-            flex: 78,
-            child: Row(
-              children: [
-                Expanded(
-                  flex: 21,
-                  child: Column(
-                    children: [
-                      Container(
-                        // 用户头像
-                        height: MediaQuery.of(context).size.height * 0.78 * 0.21 * 0.15,
-                        // 添加你的用户头像部分的代码
-                      ),
-                      Container(
-                        // 搜索icon
-                        height: MediaQuery.of(context).size.height * 0.78 * 0.21 * 0.7,
-                        // 添加你的搜索icon部分的代码
-                      ),
-                      Expanded(
-                        child: SingleChildScrollView(
-                          child: Container(
-                            // 可竖直拖动的list
-                            // 占左侧栏的高度70%
-                            height: MediaQuery.of(context).size.height * 0.78 * 0.21 * 0.7,
-                            // 添加你的可竖直拖动的list部分的代码
+            flex: 90,
+            child: Container(
+              color: Color(0xFFF4FAFF),
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 21,
+                    child: Column(
+                      children: [
+                        // Container(
+                        //   height:
+                        //
+                        //   child: CircleAvatar(
+                        //     radius:
+                        //         MediaQuery.of(context).size.width * 0.21 * 0.9,
+                        //     backgroundImage: AssetImage("assets/2.jpg"),
+                        //   ),
+                        // ),
+                        Padding(
+                            padding: EdgeInsets.only(top: MediaQuery.of(context).size.height *
+                        0.03, bottom: MediaQuery.of(context).size.height *
+                  0.03),
+                          child: CircleAvatar(
+                            radius:
+                            MediaQuery.of(context).size.width * 0.21 * 0.45,
+                            backgroundImage: AssetImage("assets/2.jpg"),
+                          ),),
+                        Padding(
+                          padding: EdgeInsets.only(top: MediaQuery.of(context).size.height *
+                              0.01, bottom: MediaQuery.of(context).size.height *
+                              0.02),
+                          child: ButtonIndex(
+                            outerColor: Color(0xFFD1EBFF),
+                            innerColor: Colors.white,
+                            child: Icon(
+                              Icons.search,
+                              size: 40,
+                              color: Color(0xFF88ABDA),
+                            ),
+                          ),),
+                        Expanded(
+                          child: ListView(
+                            children: List.generate(items.length, (index) {
+                              return Padding(
+                                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height *
+                                    0.008, bottom: MediaQuery.of(context).size.height *
+                                    0.008),
+                                child: ButtonIndex(
+                                  outerColor: Color(0xFFD1EBFF),
+                                  innerColor: Colors.white,
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child:
+                                    Text(
+                                        items[index],
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.lightBlueAccent,
+                                        ),
+                                      ),
+                                  ),
+                                ),);
+                            }),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                Expanded(
-                  flex: 79,
-                  child: Container(
-                    // 右侧顶部图片
-                    height: MediaQuery.of(context).size.height * 0.78,
-
+                  VerticalDivider(
+                    color: Colors.grey,
+                    width: 1,
                   ),
-                ),
-              ],
+                  Expanded(
+                    flex: 79,
+                    child: Container(
+                      // 右侧顶部图片
+                      height: MediaQuery.of(context).size.height * 0.90,
+                      color: Colors.white,
+                      child: Text("part4"),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           Expanded(
-            flex: 22,
+            flex: 10,
             child: Container(
-              // 导航栏
-              // 添加你的导航栏部分的代码
+              color: Color(0xFFE9F4FC),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Column(
+                    children: [
+                      Icon(Icons.star),
+                      Text("指南"),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Icon(Icons.refresh),
+                      Text("动态"),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ],
