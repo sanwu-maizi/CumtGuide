@@ -1,8 +1,24 @@
+import 'package:cumt_guide/prefs.dart';
+import 'package:cumt_guide/setting_Page/settings.dart';
+import 'package:cumt_guide/theme/theme_color.dart';
 import 'package:flutter/material.dart';
 import 'package:cumt_guide/HomePage/button_index/button_index.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'config.dart';
+
+main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Prefs.init();
+  runApp((MultiProvider(
+    providers: [
+      //用于主题切换
+      ChangeNotifierProvider(create: (_) => ThemeProvider()),
+    ],
+    child: const MyApp(),
+  )));
 }
 
 class MyApp extends StatelessWidget {
@@ -10,19 +26,33 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+    return ScreenUtilInit(
+      designSize: const Size(UIConfig.designWidth, UIConfig.designHeight),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child) {
+        return MaterialApp(
+          //主题切换
+          theme: Provider.of<ThemeProvider>(context).themeData,
+          debugShowCheckedModeBanner: false,
+          home: child,
+        );
+      },
+      //判断是否选择学校
+      child:  const MyHomePage(),
     );
   }
 }
 
+toMyHomePage(BuildContext context) {
+  Navigator.of(context).push(MaterialPageRoute(
+    builder: (context) => const MyHomePage(),
+    fullscreenDialog: true, // 路由为全屏模式
+  ));
+}
+
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-  final String title;
+  const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -45,38 +75,46 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        automaticallyImplyLeading: false,
       ),
+      backgroundColor: Theme.of(context).cardTheme.color,
       body: Column(
         children: [
           Expanded(
             flex: 90,
             child: Container(
-              color: Color(0xFFF4FAFF),
+              color: Theme.of(context).cardTheme.color,
               child: Row(
                 children: [
                   Expanded(
                     flex: 21,
                     child: Column(
                       children: [
-                        // Container(
-                        //   height:
-                        //
-                        //   child: CircleAvatar(
-                        //     radius:
-                        //         MediaQuery.of(context).size.width * 0.21 * 0.9,
-                        //     backgroundImage: AssetImage("assets/2.jpg"),
-                        //   ),
-                        // ),
                         Padding(
                             padding: EdgeInsets.only(top: MediaQuery.of(context).size.height *
                         0.03, bottom: MediaQuery.of(context).size.height *
                   0.03),
-                          child: CircleAvatar(
-                            radius:
-                            MediaQuery.of(context).size.width * 0.21 * 0.45,
-                            backgroundImage: AssetImage("assets/2.jpg"),
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              CircleAvatar(
+                                radius: MediaQuery.of(context).size.width * 0.21 * 0.45,
+                                backgroundImage: AssetImage("assets/2.jpg"),
+                              ),
+                              Material(
+                                color: Colors.transparent,
+                                shape: CircleBorder(), //圆形
+                                child: Container(
+                                  height: MediaQuery.of(context).size.width * 0.21 * 0.45,
+                                  child:InkWell(
+                                  borderRadius: BorderRadius.circular(1000),
+                                  radius :MediaQuery.of(context).size.width * 0.21 * 0.45,
+                                  onTap: () {
+                                    toSettingPage(context);
+                                  },
+                                ),),
+                              )
+                            ],
                           ),),
                         Padding(
                           padding: EdgeInsets.only(top: MediaQuery.of(context).size.height *
@@ -92,7 +130,8 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                           ),),
                         Expanded(
-                          child: ListView(
+                          child: SingleChildScrollView(
+                            child: Column(
                             children: List.generate(items.length, (index) {
                               return Padding(
                                 padding: EdgeInsets.only(top: MediaQuery.of(context).size.height *
@@ -107,7 +146,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     Text(
                                         items[index],
                                         style: TextStyle(
-                                          fontSize: 18,
+                                          fontSize: 10,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.lightBlueAccent,
                                         ),
@@ -115,6 +154,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ),
                                 ),);
                             }),
+                          ),
                           ),
                         ),
                       ],
