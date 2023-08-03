@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../main1.dart';
-import '../prefs.dart';
+import '../util/prefs.dart';
 import '../theme/theme_color.dart';
 import 'drawer_button.dart';
-import '../config.dart';
+import '../util/config.dart';
 
 toSettingPage(BuildContext context) {
   Navigator.of(context).push(MaterialPageRoute(
@@ -22,18 +23,28 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
+  TextEditingController nameController = TextEditingController();
+
   @override
+  void initState() {
+    Prefs.init();
+    nameController.text = Prefs.cumtLoginUsername;
+    super.initState();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Theme.of(context).cardTheme.color,
       body: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Expanded(
             flex: 2,
             child: Stack(
               children: [
                 Padding(
-                  padding: EdgeInsets.fromLTRB(0, 80.0, 0, 20),
+                  padding: EdgeInsets.fromLTRB(0, 75.0, 0, 25),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -42,10 +53,12 @@ class _SettingPageState extends State<SettingPage> {
                           CircleAvatar(
                             radius:
                                 MediaQuery.of(context).size.width * 0.21 * 0.8,
-                            backgroundImage: AssetImage("assets/2.jpg"),
+                            backgroundImage: AssetImage(Prefs.avatarImagePath),
                           ),
-                          Text('maizi',
+                          Text(Prefs.cumtLoginUsername,
                               style: TextStyle(
+                                fontSize: UIConfig.fontSizeUsername,
+                                fontWeight: FontWeight.bold,
                                 height: 1.5, //设置高度居中
                               )),
                         ],
@@ -64,54 +77,105 @@ class _SettingPageState extends State<SettingPage> {
                         onPressed: () {
                           toMyHomePage(context);
                         })),
+                Positioned(
+                  right: MediaQuery.of(context).size.width * 0.21 * 0.38,
+                  top: MediaQuery.of(context).size.width * 0.21 * 1.6,
+                  child: IconButton(
+                    icon: Icon(Icons.edit),
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text('编辑资料'),
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  TextField(
+                                    controller: nameController,
+                                    decoration:
+                                        InputDecoration(hintText: '用户名'),
+                                  ),
+                                  ElevatedButton(
+                                    child: Text('选择头像'),
+                                    onPressed: () async {
+                                      final picker = ImagePicker();
+                                      final pickedFile = await picker.pickImage(
+                                          source: ImageSource.gallery);
+                                      setState(() {
+                                        Prefs.avatarImagePath =
+                                            pickedFile as String;
+                                      });
+                                    },
+                                  ),
+                                  ElevatedButton(
+                                    child: Text('确认'),
+                                    onPressed: () {
+                                      // 保存用户名和头像路径到本地
+                                      Prefs.cumtLoginUsername=nameController.text;
+                                      Navigator.pop(context);
+                                      setState(() {}); // 刷新页面
+                                    },
+                                  ),
+                                ],
+                              ),
+                            );
+                          });
+                    },
+                  ),
+                ),
               ],
             ),
           ),
           Expanded(
             flex: 4,
-            child: Flex(
-              direction: Axis.vertical,
-              children: [
-                Container(
-                  padding: EdgeInsets.all(UIConfig.paddingAll),
-                  decoration: BoxDecoration(
-                      borderRadius:
-                          BorderRadius.circular(UIConfig.borderRadiusEntry),
-                      color: Theme.of(context).colorScheme.primary),
-                  child: Column(
-                    children: const [
-                      AboutButton(),
-                      Divider(
-                        color: Colors.black12,
-                        thickness: 1,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width *0.03),
+              child:
+                Flex(
+                  direction: Axis.vertical,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(UIConfig.paddingAll),
+                      decoration: BoxDecoration(
+                          borderRadius:
+                              BorderRadius.circular(UIConfig.borderRadiusEntry),
+                          color: Theme.of(context).colorScheme.primary),
+                      child: Column(
+                        children: const [
+                          AboutButton(),
+                          Divider(
+                            color: Colors.black12,
+                            thickness: 1,
+                          ),
+                          FeedBackButton(),
+                          Divider(
+                            color: Colors.black12,
+                            thickness: 1,
+                          ),
+                          ShareApp(),
+                          Divider(
+                            color: Colors.black12,
+                            thickness: 1,
+                          ),
+                          UpdatecheckButton(),
+                          Divider(
+                            color: Colors.black12,
+                            thickness: 1,
+                          ),
+                          QQButtom(),
+                        ],
                       ),
-                      FeedBackButton(),
-                      Divider(
-                        color: Colors.black12,
-                        thickness: 1,
-                      ),
-                      ShareApp(),
-                      Divider(
-                        color: Colors.black12,
-                        thickness: 1,
-                      ),
-                      UpdatecheckButton(),
-                      Divider(
-                        color: Colors.black12,
-                        thickness: 1,
-                      ),
-                      QQButtom(),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
             ),
           ),
           Spacer(),
           Expanded(
               flex: 1,
               child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Column(
                       children: [
@@ -119,23 +183,31 @@ class _SettingPageState extends State<SettingPage> {
                           icon: Icon(Icons.nightlight_round),
                           onPressed: () {
                             setState(() {
-                              Prefs.isDark=(Prefs.isDark=='true')?'false':'true';
+                              Prefs.isDark =
+                                  (Prefs.isDark == 'true') ? 'false' : 'true';
                               Provider.of<ThemeProvider>(context, listen: false)
-                                  .setThemeData(Prefs.isDark=='false'
-                                  ? AppTheme.darkTheme().themeData
-                                  : AppTheme.LightTheme().themeData);
+                                  .setThemeData(Prefs.isDark == 'false'
+                                      ? AppTheme.darkTheme().themeData
+                                      : AppTheme.LightTheme().themeData);
                             });
                           },
                         ),
                         Text("夜间模式"),
                       ],
                     ),
+                    SizedBox(
+                        child: Container(
+                        width: MediaQuery.of(context).size.width *0.08,
+                        ),
+                    ),
                     Column(
                       children: [
                         IconButton(
                           icon: Image.asset('assets/qq.png'),
                           onPressed: () {
-                            launchUrl(Uri.parse('https://jq.qq.com/?_wv=1027&k=RPprjgMn'),
+                            launchUrl(
+                                Uri.parse(
+                                    'https://jq.qq.com/?_wv=1027&k=RPprjgMn'),
                                 mode: LaunchMode.externalApplication);
                           },
                         ),

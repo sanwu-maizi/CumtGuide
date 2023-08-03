@@ -6,6 +6,8 @@ class UIConfig {
   static const double designHeight = 3120;
 
   // 字体大小
+  static final double fontSizeUsername = ScreenUtil().setSp(120); // 用户名显示
+  static final double fontSizeSidebar = ScreenUtil().setSp(50); // 侧边栏按钮字体
   static final double fontSizeTitle = ScreenUtil().setSp(58); // AppBar标题
   static final double fontSizeSubTitle =
       ScreenUtil().setSp(54); // 关于我们、反馈、检查更新的标题

@@ -21,12 +21,12 @@ class ButtonIndex extends StatelessWidget {
           padding: const EdgeInsets.all(5),
           decoration: BoxDecoration(
             color: outerColor,
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(18),
           ),
           child: Container(
             decoration: BoxDecoration(
               color: innerColor,
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(20),
             ),
             child: child,
           ),

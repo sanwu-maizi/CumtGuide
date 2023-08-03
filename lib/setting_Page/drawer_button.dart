@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../config.dart';
+import '../util/config.dart';
 import 'feedback/feedback_page.dart';
 // import '../login_util/prefs.dart';
 // import 'aboutUs/aboutus_page.dart';

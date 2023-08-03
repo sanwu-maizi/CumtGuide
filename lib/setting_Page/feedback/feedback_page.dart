@@ -1,6 +1,6 @@
 import 'package:cumt_guide/setting_Page/feedback/toast.dart';
 
-import '../../config.dart';
+import '../../util/config.dart';
 import 'package:flutter/material.dart';
 import '../drawer_button.dart';
 import 'imagePickButton.dart';

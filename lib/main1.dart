@@ -1,5 +1,5 @@
 import 'package:bot_toast/bot_toast.dart';
-import 'package:cumt_guide/prefs.dart';
+import 'package:cumt_guide/util/prefs.dart';
 import 'package:cumt_guide/setting_Page/settings.dart';
 import 'package:cumt_guide/theme/theme_color.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +7,7 @@ import 'package:cumt_guide/HomePage/button_index/button_index.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
-import 'config.dart';
+import 'util/config.dart';
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -135,6 +135,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),),
                         Expanded(
                           child: SingleChildScrollView(
+                            physics: BouncingScrollPhysics(),
                             child: Column(
                             children: List.generate(items.length, (index) {
                               return Padding(
@@ -150,7 +151,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     Text(
                                         items[index],
                                         style: TextStyle(
-                                          fontSize: 10,
+                                          fontSize: UIConfig.fontSizeSidebar,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.lightBlueAccent,
                                         ),
