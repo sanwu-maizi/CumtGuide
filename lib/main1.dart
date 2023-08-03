@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:cumt_guide/prefs.dart';
 import 'package:cumt_guide/setting_Page/settings.dart';
 import 'package:cumt_guide/theme/theme_color.dart';
@@ -35,6 +36,9 @@ class MyApp extends StatelessWidget {
           //主题切换
           theme: Provider.of<ThemeProvider>(context).themeData,
           debugShowCheckedModeBanner: false,
+          builder: BotToastInit(),
+          //toast弹窗的初始化
+          navigatorObservers: [BotToastNavigatorObserver()],
           home: child,
         );
       },
@@ -121,7 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               0.01, bottom: MediaQuery.of(context).size.height *
                               0.02),
                           child: ButtonIndex(
-                            outerColor: Color(0xFFD1EBFF),
+                            outerColor: Theme.of(context).canvasColor,
                             innerColor: Colors.white,
                             child: Icon(
                               Icons.search,
@@ -138,7 +142,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     0.008, bottom: MediaQuery.of(context).size.height *
                                     0.008),
                                 child: ButtonIndex(
-                                  outerColor: Color(0xFFD1EBFF),
+                                  outerColor: Theme.of(context).canvasColor,
                                   innerColor: Colors.white,
                                   child: Align(
                                     alignment: Alignment.center,

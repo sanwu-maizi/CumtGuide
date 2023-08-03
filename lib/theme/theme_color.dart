@@ -43,7 +43,7 @@ class AppTheme {
 
         scaffoldBackgroundColor: ThemeData.dark().cardColor,
         //更改页面顶端颜色
-        canvasColor: Colors.black12,
+        canvasColor: Colors.white30,
         //更改绘图颜色
         colorScheme: ColorScheme(
           primary: const Color.fromRGBO(50,50,50,1),
@@ -69,7 +69,7 @@ class AppTheme {
         cardTheme: const CardTheme(
           color: Color.fromRGBO(245,244,249,1),// 更改Card的颜色
         ),
-        canvasColor: const Color.fromRGBO(245,244,249,1),
+        canvasColor: Color(0xFFD1EBFF),
 
         appBarTheme: const AppBarTheme(),
         textTheme: const TextTheme(),

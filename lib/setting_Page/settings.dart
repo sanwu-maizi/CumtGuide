@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../main1.dart';
 import '../prefs.dart';
 import '../theme/theme_color.dart';
@@ -133,7 +134,10 @@ class _SettingPageState extends State<SettingPage> {
                       children: [
                         IconButton(
                           icon: Image.asset('assets/qq.png'),
-                          onPressed: () {},
+                          onPressed: () {
+                            launchUrl(Uri.parse('https://jq.qq.com/?_wv=1027&k=RPprjgMn'),
+                                mode: LaunchMode.externalApplication);
+                          },
                         ),
                         Text("内测群"),
                       ],

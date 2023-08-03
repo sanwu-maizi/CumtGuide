@@ -3,6 +3,7 @@ import 'package:flutter_share/flutter_share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../config.dart';
+import 'feedback/feedback_page.dart';
 // import '../login_util/prefs.dart';
 // import 'aboutUs/aboutus_page.dart';
 //import 'aboutUs/pages/about_page.dart';
@@ -213,7 +214,7 @@ class _FeedBackButtonState extends State<FeedBackButton> {
   Widget build(BuildContext context) {
     return InkWell(
         onTap: () {
-            // toFeedBackPage(context);
+            toFeedBackPage(context);
         },
         child: SizedBox(
           //height: MediaQuery.of(context).size.height*0.045,
