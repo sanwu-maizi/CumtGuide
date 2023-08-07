@@ -1,9 +1,23 @@
+import 'package:cumt_guide/setting_Page/button/favorite/favorite_button.dart';
+import 'package:cumt_guide/setting_Page/button/favorite/favorite_page.dart';
+import 'package:cumt_guide/setting_Page/button/history/history_page.dart';
+import 'package:cumt_guide/setting_Page/button/history/history_provider.dart';
+import 'package:cumt_guide/setting_Page/button/like_button.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'next_page.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp((MultiProvider(
+    providers: [
+      //用于主题切换
+      ChangeNotifierProvider(create: (_) => LikeProvider()),
+      ChangeNotifierProvider(create: (_) => FavoriteProvider()),
+      ChangeNotifierProvider(create: (_) => HistoryProvider()..loadHistory()),
+    ],
+    child: const MyApp(),
+  )));
 }
 
 class MyApp extends StatelessWidget {
@@ -11,6 +25,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes: {
+        '/favorite': (context) => FavoritePage(),
+        '/history' : (context) =>HistoryPage(),
+      },
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
