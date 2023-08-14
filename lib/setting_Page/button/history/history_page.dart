@@ -5,6 +5,13 @@ import 'package:provider/provider.dart';
 import '../../../content_entity.dart';
 import 'history_provider.dart';
 
+toHistoryPage(BuildContext context) {
+  Navigator.of(context).push(MaterialPageRoute(
+    builder: (context) => const HistoryPage(),
+    fullscreenDialog: true, // 路由为全屏模式
+  ));
+}
+
 class HistoryPage extends StatelessWidget {
   const HistoryPage({Key? key}) : super(key: key);
 
@@ -14,8 +21,11 @@ class HistoryPage extends StatelessWidget {
     final history = historyProvider.history;
 
     return Scaffold(
+      backgroundColor: Theme.of(context).cardTheme.color,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        iconTheme: IconThemeData(
+          color: Theme.of(context).iconTheme.color,
+        ),
         title: Text('浏览历史'),
       ),
       body: Scrollbar(
@@ -57,6 +67,7 @@ class HistoryPage extends StatelessWidget {
         onPressed: () {
           historyProvider.clearHistory();
         },
+        backgroundColor: Theme.of(context).canvasColor,
         shape: const CircleBorder(),
         child: const Icon(Icons.delete),
       ),

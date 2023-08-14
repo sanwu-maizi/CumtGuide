@@ -26,7 +26,7 @@ class ButtonIndex extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               color: innerColor,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(16),
             ),
             child: child,
           ),

@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../../content_entity.dart';
 import 'favorite_button.dart';
 import 'favorite_view.dart'; // 导入FavoriteProvider
+
+toFavoritePage(BuildContext context) {
+  Navigator.of(context).push(MaterialPageRoute(
+    builder: (context) => const FavoritePage(),
+    fullscreenDialog: true, // 路由为全屏模式
+  ));
+}
 
 class FavoritePage extends StatelessWidget {
   const FavoritePage({Key? key}) : super(key: key);
@@ -14,8 +19,11 @@ class FavoritePage extends StatelessWidget {
     final favorite = favoriteProvider.favorites;
 
     return Scaffold(
+      backgroundColor: Theme.of(context).cardTheme.color,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        iconTheme: IconThemeData(
+          color: Theme.of(context).iconTheme.color,
+        ),
         title: Text('收藏页面'),
       ),
       body: Scrollbar(
@@ -57,6 +65,7 @@ class FavoritePage extends StatelessWidget {
         onPressed: () {
           favoriteProvider.clearFavorites();
         },
+        backgroundColor: Theme.of(context).canvasColor,
         shape: const CircleBorder(),
         child: const Icon(Icons.delete),
       ),

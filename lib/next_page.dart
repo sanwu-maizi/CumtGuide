@@ -1,9 +1,11 @@
 import 'package:cumt_guide/setting_Page/button/favorite/favorite_button.dart';
+import 'package:cumt_guide/setting_Page/button/favorite/favorite_page.dart';
+import 'package:cumt_guide/setting_Page/button/history/history_page.dart';
+import 'package:cumt_guide/setting_Page/button/history/history_provider.dart';
 import 'package:cumt_guide/setting_Page/button/like_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'content_model.dart';
 import 'content_entity.dart';
 import 'content_model.dart';
 
@@ -29,7 +31,8 @@ class _NextPageState extends State<NextPage> with AutomaticKeepAliveClientMixin{
   void initState() {
     super.initState();
     Provider.of<FavoriteProvider>(context, listen: false).loadFavorites();
-    _futureBuilderFuture = _model.getData();
+    Provider.of<HistoryProvider>(context, listen: false).loadHistory();
+    _futureBuilderFuture = _model.getData(s);
   }
 
   void _onNewsDeselected(BuildContext context, ContentEntity news) {
@@ -52,7 +55,6 @@ class _NextPageState extends State<NextPage> with AutomaticKeepAliveClientMixin{
     favoriteProvider.addToFavorites(news);
 
   }
-
   @override
   Widget build(BuildContext context) {
     LikeProvider likeProvider = Provider.of<LikeProvider>(context);
@@ -60,31 +62,36 @@ class _NextPageState extends State<NextPage> with AutomaticKeepAliveClientMixin{
     return FutureBuilder<ContentEntity?>(
         key: UniqueKey(),
         future: _futureBuilderFuture,
-        builder:
-            (BuildContext context, AsyncSnapshot<ContentEntity?> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<ContentEntity?> snapshot) {
           if (snapshot.hasData) {
+            favoriteProvider.check(snapshot.data!);
+            Provider.of<HistoryProvider>(context, listen: false).addToHistory(snapshot.data!);
             return Scaffold(
+                backgroundColor: Theme.of(context).cardTheme.color,
                 appBar: AppBar(
-                  backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+                  iconTheme: IconThemeData(
+                    color: Theme.of(context).iconTheme.color,
+                  ),
                   actions: [
                     IconButton(
                       icon: const Icon(Icons.share),
+                      color: Theme.of(context).iconTheme.color,
                       onPressed: () {
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              content: Container(
-                                  height:
-                                  MediaQuery.of(context).size.height * 0.14,
-                                  child: Column(children: [
-                                    SizedBox(
-                                      height: MediaQuery.of(context).size.height *
-                                          0.01,
-                                    ),
-                                    const Text(
-                                        '功能尚未开放，若你需要使用这个功能，请联系我们!\nヾ(❀╹◡╹)ﾉﾞ❀~\n(也可以留下您的联系方式，方便我们及时联络您)')
-                                  ])),
+                              content: SingleChildScrollView( // 使用SingleChildScrollView包裹内容
+                                child: Container(
+                                  child: Column(
+                                    children: [
+                                      const Text(
+                                        '功能尚未开放，若你需要使用这个功能，请联系我们!\nヾ(❀╹◡╹)ﾉﾞ❀~\n(也可以留下您的联系方式，方便我们及时联络您)',
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
                               actions: [
                                 TextButton(
                                   child: const Text('取消'),
@@ -176,7 +183,7 @@ class _NextPageState extends State<NextPage> with AutomaticKeepAliveClientMixin{
                 ),
                 bottomNavigationBar: Container(
                     height: MediaQuery.of(context).size.height * 0.08,
-                    color: Theme.of(context).colorScheme.inversePrimary,
+                    color: Theme.of(context).cardTheme.color,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -237,6 +244,7 @@ class _NextPageState extends State<NextPage> with AutomaticKeepAliveClientMixin{
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     FloatingActionButton(
+                      backgroundColor: Theme.of(context).canvasColor,
                       heroTag: "btn1",
                       onPressed: () {
                         _controller.animateTo(
@@ -250,16 +258,18 @@ class _NextPageState extends State<NextPage> with AutomaticKeepAliveClientMixin{
                     ),
                     FloatingActionButton(
                       heroTag: "btn2",
+                      backgroundColor: Theme.of(context).canvasColor,
                       onPressed: () {
-                        Navigator.of(context).pushNamed('/favorite');
+                        toFavoritePage(context);
                       },
                       shape: const CircleBorder(),
                       child: const Icon(Icons.star_border),
                     ),
                     FloatingActionButton(
                       heroTag: "btn3",
+                      backgroundColor: Theme.of(context).canvasColor,
                       onPressed: () {
-                        Navigator.of(context).pushNamed('/history');
+                        toHistoryPage(context);
                       },
                       shape: const CircleBorder(),
                       child: const Icon(Icons.history),
@@ -312,7 +322,7 @@ class _NextPageState extends State<NextPage> with AutomaticKeepAliveClientMixin{
                   ),
                 ],
               ),
-              body: Text(" "),
+              body: const Text(" "),
               bottomNavigationBar: Container(
                   height: MediaQuery.of(context).size.height * 0.08,
                   color: Theme.of(context).colorScheme.inversePrimary,
@@ -370,6 +380,7 @@ class _NextPageState extends State<NextPage> with AutomaticKeepAliveClientMixin{
                   );
                 },
                 shape: const CircleBorder(),
+                backgroundColor: Theme.of(context).canvasColor,
                 child: const Icon(Icons.arrow_upward),
               ),
             );

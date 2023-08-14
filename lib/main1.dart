@@ -1,4 +1,7 @@
 import 'package:bot_toast/bot_toast.dart';
+import 'package:cumt_guide/setting_Page/button/favorite/favorite_button.dart';
+import 'package:cumt_guide/setting_Page/button/history/history_provider.dart';
+import 'package:cumt_guide/setting_Page/button/like_button.dart';
 import 'package:cumt_guide/util/prefs.dart';
 import 'package:cumt_guide/setting_Page/settings.dart';
 import 'package:cumt_guide/theme/theme_color.dart';
@@ -6,7 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:cumt_guide/HomePage/button_index/button_index.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:cumt_guide/dio/dio_model.dart';
+import 'package:cumt_guide/dio/search/search_page.dart';
 
+import 'dio/dio_entity.dart';
+import 'dio/search/search_provider.dart';
+import 'next_page.dart';
 import 'util/config.dart';
 
 main() async {
@@ -17,6 +25,10 @@ main() async {
     providers: [
       //用于主题切换
       ChangeNotifierProvider(create: (_) => ThemeProvider()),
+      ChangeNotifierProvider(create: (_) => LikeProvider()),
+      ChangeNotifierProvider(create: (_) => FavoriteProvider()),
+      ChangeNotifierProvider(create: (_) => HistoryProvider()),
+      ChangeNotifierProvider(create: (_) => SearchProvider()),
     ],
     child: const MyApp(),
   )));
@@ -42,7 +54,6 @@ class MyApp extends StatelessWidget {
           home: child,
         );
       },
-      //判断是否选择学校
       child:  const MyHomePage(),
     );
   }
@@ -74,6 +85,17 @@ class _MyHomePageState extends State<MyHomePage> {
     '教务信息4',
     '教务信息',
   ];
+
+  String  s="http://ekkosblog.online:9999/types";
+
+  var _futureBuilder;
+
+  final DioModel _model=DioModel();
+  @override
+  void initState(){
+    super.initState();
+    _futureBuilder=_model.getData(s);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -137,31 +159,43 @@ class _MyHomePageState extends State<MyHomePage> {
                           child: SingleChildScrollView(
                             physics: BouncingScrollPhysics(),
                             child: Column(
-                            children: List.generate(items.length, (index) {
-                              return Padding(
-                                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height *
-                                    0.008, bottom: MediaQuery.of(context).size.height *
-                                    0.008),
-                                child: ButtonIndex(
-                                  outerColor: Theme.of(context).canvasColor,
-                                  innerColor: Colors.white,
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child:
-                                    Text(
-                                        items[index],
-                                        style: TextStyle(
-                                          fontSize: UIConfig.fontSizeSidebar,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.lightBlueAccent,
+                              children: [
+                                Wrap(
+                                  spacing: MediaQuery.of(context).size.width * 0.02, // 调整字之间的间距
+                                  children: List.generate(items.length, (index) {
+                                    String text = items[index];
+                                    return Padding(
+                                      padding: EdgeInsets.only(
+                                        top: MediaQuery.of(context).size.height * 0.008,
+                                        bottom: MediaQuery.of(context).size.height * 0.008,
+                                      ),
+                                      child: ButtonIndex(
+                                        outerColor: Theme.of(context).canvasColor,
+                                        innerColor: Colors.white,
+                                        child: Align(
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            text,
+                                            style: TextStyle(
+                                              fontSize: UIConfig.fontSizeSidebar,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.lightBlueAccent,
+                                            ),
+                                            overflow: TextOverflow.visible, // 设置overflow为visible
+                                            maxLines: 2, // 设置最大行数为2
+                                            textAlign: TextAlign.center,
+                                          ),
                                         ),
                                       ),
-                                  ),
-                                ),);
-                            }),
-                          ),
+                                    );
+                                  }),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
+
+
                       ],
                     ),
                   ),
@@ -170,13 +204,80 @@ class _MyHomePageState extends State<MyHomePage> {
                     width: 1,
                   ),
                   Expanded(
-                    flex: 79,
-                    child: Container(
-                      // 右侧顶部图片
-                      height: MediaQuery.of(context).size.height * 0.90,
-                      color: Colors.white,
-                      child: Text("part4"),
-                    ),
+                      flex: 79,
+                      child: Column(
+                        children: [
+                          Expanded(
+                            flex:2,
+                            child: Image.asset("assets/img.png",fit: BoxFit.fill),
+                          ),
+                          Expanded(
+                            flex:8,
+                            child: FutureBuilder<DioEntity?>(
+                                future: _futureBuilder,
+                                builder: (BuildContext context, AsyncSnapshot<DioEntity?> snapshot){
+                                  if(snapshot.hasData){
+                                    return ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: snapshot.data!.data!.length,
+                                      itemBuilder: (BuildContext context, int index) {
+                                        return InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(builder: (context) => NextPage()),
+                                            );
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: Colors.grey[200], // 背景颜色
+                                              borderRadius: BorderRadius.circular(10.0), // 圆角
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.grey.withOpacity(1), // 阴影颜色
+                                                  spreadRadius: 1,
+                                                  blurRadius: 4,
+                                                  offset: Offset(3, 3), // 阴影偏移
+                                                ),
+                                              ],
+                                            ),
+                                            margin: EdgeInsets.symmetric(vertical: 7.0, horizontal: 13.0),
+                                            padding: EdgeInsets.fromLTRB(15.0,5.0,5.0,5.0),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  snapshot.data!.data![index].id!,
+                                                  style: TextStyle(
+                                                    fontSize: 18, // 标题字体大小偏大
+                                                    fontWeight: FontWeight.bold, // 标题字体加粗
+                                                    color: Colors.grey[600], // 标题字体颜色
+                                                  ),
+                                                ),
+                                                SizedBox(height: 5), // 间距
+                                                Text(
+                                                  "Date: ${snapshot.data!.data![index].id}",
+                                                  style: TextStyle(
+                                                    fontSize: 14, // 内容字体大小偏小
+                                                    color: Colors.grey[300], // 内容字体颜色
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    );
+
+                                  }else{
+                                    return Container(height:MediaQuery.of(context).size.height * 0.75,
+                                        color: Colors.white
+                                    );
+                                  }
+                                }),
+                          )
+                        ],
+                      )
                   ),
                 ],
               ),
@@ -185,7 +286,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Expanded(
             flex: 10,
             child: Container(
-              color: Color(0xFFE9F4FC),
+              color: Theme.of(context).colorScheme.primary,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [

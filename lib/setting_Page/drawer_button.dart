@@ -1,8 +1,10 @@
+import 'package:cumt_guide/setting_Page/button/history/history_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../util/config.dart';
+import 'button/favorite/favorite_page.dart';
 import 'feedback/feedback_page.dart';
 // import '../login_util/prefs.dart';
 // import 'aboutUs/aboutus_page.dart';
@@ -334,6 +336,74 @@ class _QQButtomState extends State<QQButtom> {
                 children: [
                   Expanded(
                     child: Text("加入内测交流群",
+                        style: TextStyle(fontSize: UIConfig.fontSizeMain)),
+                  ),
+                  Icon(
+                    Icons.keyboard_arrow_right_rounded,
+                    size: UIConfig.fontSizeMin * 2,
+                  ),
+                ],
+              )),
+        ));
+  }
+}
+
+class FavoriteButton extends StatefulWidget {
+  const FavoriteButton({Key? key}) : super(key: key);
+
+  @override
+  State<FavoriteButton> createState() => _FavoriteButtonState();
+}
+
+class _FavoriteButtonState extends State<FavoriteButton> {
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+        onTap: () {
+          toFavoritePage(context);
+        },
+        child: SizedBox(
+          //height: MediaQuery.of(context).size.height*0.045,
+          child: Padding(
+              padding: EdgeInsets.all(UIConfig.paddingAll * 1.2),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text("俺的收藏",
+                        style: TextStyle(fontSize: UIConfig.fontSizeMain)),
+                  ),
+                  Icon(
+                    Icons.keyboard_arrow_right_rounded,
+                    size: UIConfig.fontSizeMin * 2,
+                  ),
+                ],
+              )),
+        ));
+  }
+}
+
+class HistoryButton extends StatefulWidget {
+  const HistoryButton({Key? key}) : super(key: key);
+
+  @override
+  State<HistoryButton> createState() => _HistoryButtonState();
+}
+
+class _HistoryButtonState extends State<HistoryButton> {
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+        onTap: () {
+          toHistoryPage(context);
+        },
+        child: SizedBox(
+          //height: MediaQuery.of(context).size.height*0.045,
+          child: Padding(
+              padding: EdgeInsets.all(UIConfig.paddingAll * 1.2),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text("历史浏览",
                         style: TextStyle(fontSize: UIConfig.fontSizeMain)),
                   ),
                   Icon(

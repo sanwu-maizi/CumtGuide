@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../content_entity.dart';
-import '../../../content_model.dart';
 import '../like_button.dart';
 import 'favorite_button.dart';
 
@@ -28,7 +27,8 @@ class _FavoriteViewState extends State<FavoriteView> {
   }
 
   void _onNewsDeselected(BuildContext context, ContentEntity news) {
-    final favoriteProvider = Provider.of<FavoriteProvider>(context, listen: false);
+    final favoriteProvider =
+        Provider.of<FavoriteProvider>(context, listen: false);
     favoriteProvider.removeFromFavorites(news);
   }
 
@@ -41,60 +41,62 @@ class _FavoriteViewState extends State<FavoriteView> {
   void _onNewsSelected(BuildContext context, ContentEntity news) {
     // Add the selected news to the history
     // 使用Provider.of获取FavoriteProvider实例
-    final favoriteProvider = Provider.of<FavoriteProvider>(context, listen: false);
+    final favoriteProvider =
+        Provider.of<FavoriteProvider>(context, listen: false);
 
     // 添加到收藏列表
     favoriteProvider.addToFavorites(news);
-
   }
 
   @override
   Widget build(BuildContext context) {
     LikeProvider likeProvider = Provider.of<LikeProvider>(context);
-    FavoriteProvider favoriteProvider=Provider.of<FavoriteProvider>(context);
-    return Scaffold(appBar: AppBar(
-      backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.share),
-          onPressed: () {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  content: Container(
-                      height:
-                      MediaQuery.of(context).size.height * 0.14,
-                      child: Column(children: [
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height *
-                              0.01,
+    FavoriteProvider favoriteProvider = Provider.of<FavoriteProvider>(context);
+    return Scaffold(
+        backgroundColor: Theme.of(context).cardTheme.color,
+        appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: Theme.of(context).iconTheme.color,
+          ),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.share),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      content: Container(
+                          height: MediaQuery.of(context).size.height * 0.14,
+                          child: Column(children: [
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.01,
+                            ),
+                            const Text(
+                                '功能尚未开放，若你需要使用这个功能，请联系我们!\nヾ(❀╹◡╹)ﾉﾞ❀~\n(也可以留下您的联系方式，方便我们及时联络您)')
+                          ])),
+                      actions: [
+                        TextButton(
+                          child: const Text('取消'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
                         ),
-                        const Text(
-                            '功能尚未开放，若你需要使用这个功能，请联系我们!\nヾ(❀╹◡╹)ﾉﾞ❀~\n(也可以留下您的联系方式，方便我们及时联络您)')
-                      ])),
-                  actions: [
-                    TextButton(
-                      child: const Text('取消'),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                    TextButton(
-                      child: const Text('确定'),
-                      onPressed: () {
-                        // 执行确定操作
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ],
+                        TextButton(
+                          child: const Text('确定'),
+                          onPressed: () {
+                            // 执行确定操作
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  },
                 );
               },
-            );
-          },
+            ),
+          ],
         ),
-      ],
-    ),
         body: SingleChildScrollView(
           controller: _controller,
           child: Column(
@@ -102,10 +104,8 @@ class _FavoriteViewState extends State<FavoriteView> {
               Row(children: [
                 Container(
                     padding: EdgeInsets.only(
-                        left:
-                        MediaQuery.of(context).size.height * 0.00125,
-                        top:
-                        MediaQuery.of(context).size.height * 0.00125),
+                        left: MediaQuery.of(context).size.height * 0.00125,
+                        top: MediaQuery.of(context).size.height * 0.00125),
                     height: MediaQuery.of(context).size.height * 0.035,
                     child: const Text(
                       "目录:教务信息>xxx>xxxx",
@@ -117,21 +117,19 @@ class _FavoriteViewState extends State<FavoriteView> {
                   children: [
                     Container(
                       padding: EdgeInsets.only(
-                          top:
-                          MediaQuery.of(context).size.height * 0.019),
+                          top: MediaQuery.of(context).size.height * 0.019),
                       height: MediaQuery.of(context).size.height * 0.094,
                       child: Text(
                         widget.news.data!.title!,
                         style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.height *
-                                0.030,
+                            fontSize:
+                                MediaQuery.of(context).size.height * 0.030,
                             fontWeight: FontWeight.bold),
                       ),
                     ),
                     Container(
                       padding: EdgeInsets.only(
-                          top:
-                          MediaQuery.of(context).size.height * 0.001),
+                          top: MediaQuery.of(context).size.height * 0.001),
                       height: MediaQuery.of(context).size.height * 0.05,
                       child: Text(
                         widget.news.data!.updateTime!,
@@ -143,11 +141,9 @@ class _FavoriteViewState extends State<FavoriteView> {
                         Padding(
                             padding: EdgeInsets.symmetric(
                               horizontal:
-                              MediaQuery.of(context).size.width *
-                                  0.05,
+                                  MediaQuery.of(context).size.width * 0.05,
                               vertical:
-                              MediaQuery.of(context).size.height *
-                                  0.02,
+                                  MediaQuery.of(context).size.height * 0.02,
                             ),
                             child: Text(widget.news.data!.content!))
                       ]),
@@ -176,17 +172,16 @@ class _FavoriteViewState extends State<FavoriteView> {
                     children: [
                       Icon(
                         Icons.thumb_up_alt_outlined,
-                        color: likeProvider.isLiked ? Colors.blue : Colors.white,
+                        color:
+                            likeProvider.isLiked ? Colors.blue : Colors.white,
                       ),
                       SizedBox(
-                          width:
-                          MediaQuery.of(context).size.width * 0.014),
+                          width: MediaQuery.of(context).size.width * 0.014),
                       Text(widget.news.data!.likes!.toString())
                     ],
                   ),
                 ),
-                SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.032),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.032),
                 InkWell(
                   onTap: () {
                     if (favoriteProvider.isLiked) {
@@ -194,9 +189,9 @@ class _FavoriteViewState extends State<FavoriteView> {
                     } else {
                       favoriteProvider.like();
                     }
-                    if(favoriteProvider.isLiked){
+                    if (favoriteProvider.isLiked) {
                       _onNewsSelected(context, widget.news);
-                    }else{
+                    } else {
                       _onNewsDeselected(context, widget.news);
                     }
                   },
@@ -204,22 +199,21 @@ class _FavoriteViewState extends State<FavoriteView> {
                     children: [
                       Icon(
                         Icons.star_border,
-                        color: favoriteProvider.isLiked ? Colors.blue : Colors.white,
+                        color: favoriteProvider.isLiked
+                            ? Colors.blue
+                            : Colors.white,
                       ),
-                      SizedBox(
-                          width:
-                          MediaQuery.of(context).size.width * 0.01),
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.01),
                       Text(widget.news.data!.likes!.toString())
                     ],
                   ),
                 ),
-                SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.032),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.032),
               ],
             )),
-
         floatingActionButton: FloatingActionButton(
           heroTag: "btn1",
+          backgroundColor: Theme.of(context).canvasColor,
           onPressed: () {
             _controller.animateTo(
               0,
@@ -229,8 +223,6 @@ class _FavoriteViewState extends State<FavoriteView> {
           },
           shape: const CircleBorder(),
           child: const Icon(Icons.arrow_upward),
-        )
-    );
+        ));
   }
 }
-

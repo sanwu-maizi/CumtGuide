@@ -7,6 +7,7 @@ import '../util/prefs.dart';
 import '../theme/theme_color.dart';
 import 'drawer_button.dart';
 import '../util/config.dart';
+import 'dart:io';
 
 toSettingPage(BuildContext context) {
   Navigator.of(context).push(MaterialPageRoute(
@@ -24,11 +25,14 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
   TextEditingController nameController = TextEditingController();
+  String avatarImagePath = ''; // 添加这一行来保存头像路径
+
 
   @override
   void initState() {
     Prefs.init();
     nameController.text = Prefs.cumtLoginUsername;
+    avatarImagePath = Prefs.avatarImagePath; // 初始化avatarImagePathController
     super.initState();
   }
 
@@ -53,7 +57,7 @@ class _SettingPageState extends State<SettingPage> {
                           CircleAvatar(
                             radius:
                                 MediaQuery.of(context).size.width * 0.21 * 0.8,
-                            backgroundImage: AssetImage(Prefs.avatarImagePath),
+                            backgroundImage: FileImage(File(Prefs.avatarImagePath))
                           ),
                           Text(Prefs.cumtLoginUsername,
                               style: TextStyle(
@@ -72,6 +76,7 @@ class _SettingPageState extends State<SettingPage> {
                     top: MediaQuery.of(context).size.width * 0.21 * 0.5,
                     child: IconButton(
                         icon: Icon(Icons.close),
+                        color: Theme.of(context).iconTheme.color,
                         iconSize:
                             MediaQuery.of(context).size.width * 0.21 * 0.5,
                         onPressed: () {
@@ -82,6 +87,7 @@ class _SettingPageState extends State<SettingPage> {
                   top: MediaQuery.of(context).size.width * 0.21 * 1.6,
                   child: IconButton(
                     icon: Icon(Icons.edit),
+                    color: Theme.of(context).iconTheme.color,
                     onPressed: () {
                       showDialog(
                           context: context,
@@ -93,26 +99,37 @@ class _SettingPageState extends State<SettingPage> {
                                 children: [
                                   TextField(
                                     controller: nameController,
-                                    decoration:
-                                        InputDecoration(hintText: '用户名'),
+                                    decoration: InputDecoration(hintText: '用户名'),
                                   ),
+                                  SizedBox(height: 16),
                                   ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      textStyle: TextStyle(fontSize: UIConfig.fontAlertText), // 调整按钮字体大小
+                                    ),
                                     child: Text('选择头像'),
                                     onPressed: () async {
                                       final picker = ImagePicker();
-                                      final pickedFile = await picker.pickImage(
-                                          source: ImageSource.gallery);
-                                      setState(() {
-                                        Prefs.avatarImagePath =
-                                            pickedFile as String;
-                                      });
+                                      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+                                      if (pickedFile != null) {
+                                        final newImagePath = pickedFile.path;
+                                        // 保存新的本地路径到Prefs
+                                        Prefs.avatarImagePath = newImagePath;
+                                        setState(() {
+                                          // 更新头像显示
+                                          avatarImagePath = newImagePath;
+                                        });
+                                      }
                                     },
                                   ),
+                                  SizedBox(height: 16),
                                   ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      textStyle: TextStyle(fontSize: UIConfig.fontAlertText), // 调整按钮字体大小
+                                    ),
                                     child: Text('确认'),
                                     onPressed: () {
                                       // 保存用户名和头像路径到本地
-                                      Prefs.cumtLoginUsername=nameController.text;
+                                      Prefs.cumtLoginUsername = nameController.text;
                                       Navigator.pop(context);
                                       setState(() {}); // 刷新页面
                                     },
@@ -120,6 +137,8 @@ class _SettingPageState extends State<SettingPage> {
                                 ],
                               ),
                             );
+
+
                           });
                     },
                   ),
@@ -143,7 +162,12 @@ class _SettingPageState extends State<SettingPage> {
                           color: Theme.of(context).colorScheme.primary),
                       child: Column(
                         children: const [
-                          AboutButton(),
+                          FavoriteButton(),
+                          Divider(
+                            color: Colors.black12,
+                            thickness: 1,
+                          ),
+                          HistoryButton(),
                           Divider(
                             color: Colors.black12,
                             thickness: 1,
@@ -158,12 +182,12 @@ class _SettingPageState extends State<SettingPage> {
                             color: Colors.black12,
                             thickness: 1,
                           ),
-                          UpdatecheckButton(),
+                          AboutButton(),
                           Divider(
                             color: Colors.black12,
                             thickness: 1,
                           ),
-                          QQButtom(),
+                          UpdatecheckButton(),
                         ],
                       ),
                     ),

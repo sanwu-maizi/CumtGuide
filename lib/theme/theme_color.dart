@@ -18,9 +18,9 @@ class AppTheme {
 
         //更改snakbar颜色
         snackBarTheme: const SnackBarThemeData(
-          backgroundColor:Colors.black54,//背景颜色
-            contentTextStyle: TextStyle(color: Colors.white)//文字颜色
-        ),
+            backgroundColor: Colors.black54, //背景颜色
+            contentTextStyle: TextStyle(color: Colors.white) //文字颜色
+            ),
 
         dialogBackgroundColor: Colors.black12,
         //更改弹窗颜色
@@ -30,23 +30,34 @@ class AppTheme {
 
         elevatedButtonTheme: const ElevatedButtonThemeData(
             style: ButtonStyle(
-              backgroundColor: MaterialStatePropertyAll(Color.fromRGBO(235, 240, 251, 1)),
-              foregroundColor: MaterialStatePropertyAll(Colors.black),
-            )),
+          backgroundColor:
+              MaterialStatePropertyAll(Color.fromRGBO(235, 240, 251, 1)),
+          foregroundColor: MaterialStatePropertyAll(Colors.black),
+        )),
 
         outlinedButtonTheme: const OutlinedButtonThemeData(
             style: ButtonStyle(
-              backgroundColor: MaterialStatePropertyAll(Color.fromRGBO(216, 227, 247, 1)),
-              foregroundColor: MaterialStatePropertyAll(Colors.black),
-            )
-        ),
+          backgroundColor:
+              MaterialStatePropertyAll(Color.fromRGBO(216, 227, 247, 1)),
+          foregroundColor: MaterialStatePropertyAll(Colors.black),
+        )),
+
+        iconButtonTheme: const IconButtonThemeData(
+            style: ButtonStyle(
+          backgroundColor: MaterialStatePropertyAll(Colors.black26),
+        )),
+
+        textButtonTheme: const TextButtonThemeData(
+            style: ButtonStyle(
+          backgroundColor: MaterialStatePropertyAll(Colors.white),
+        )),
 
         scaffoldBackgroundColor: ThemeData.dark().cardColor,
         //更改页面顶端颜色
         canvasColor: Colors.white30,
         //更改绘图颜色
         colorScheme: ColorScheme(
-          primary: const Color.fromRGBO(50,50,50,1),
+          primary: const Color.fromRGBO(50, 50, 50, 1),
           //Picker颜色
           secondary: Colors.black87,
           error: Colors.redAccent[700]!,
@@ -67,7 +78,7 @@ class AppTheme {
     return AppTheme(
       ThemeData(
         cardTheme: const CardTheme(
-          color: Color.fromRGBO(245,244,249,1),// 更改Card的颜色
+          color: Color.fromRGBO(245, 244, 249, 1), // 更改Card的颜色
         ),
         canvasColor: Color(0xFFD1EBFF),
 
@@ -76,9 +87,9 @@ class AppTheme {
 
         //更改snackbar颜色
         snackBarTheme: const SnackBarThemeData(
-          backgroundColor:Color.fromRGBO(176, 250, 255, 0.75),//背景颜色
-          contentTextStyle: TextStyle(color: Colors.white)//文字颜色
-        ),
+            backgroundColor: Color.fromRGBO(176, 250, 255, 0.75), //背景颜色
+            contentTextStyle: TextStyle(color: Colors.white) //文字颜色
+            ),
 
         dialogBackgroundColor: Colors.grey.shade300,
         //更改弹窗颜色
@@ -89,19 +100,20 @@ class AppTheme {
 
         elevatedButtonTheme: const ElevatedButtonThemeData(
             style: ButtonStyle(
-              backgroundColor: MaterialStatePropertyAll(Color.fromRGBO(235, 240, 251, 1)),
-              foregroundColor: MaterialStatePropertyAll(Colors.black),
-            )),
+          backgroundColor:
+              MaterialStatePropertyAll(Color.fromRGBO(235, 240, 251, 1)),
+          foregroundColor: MaterialStatePropertyAll(Colors.black),
+        )),
 
         outlinedButtonTheme: const OutlinedButtonThemeData(
             style: ButtonStyle(
-              backgroundColor: MaterialStatePropertyAll(Color.fromRGBO(216, 227, 247, 1)),
-              foregroundColor: MaterialStatePropertyAll(Colors.black),
-            )
-        ),
+          backgroundColor:
+              MaterialStatePropertyAll(Color.fromRGBO(216, 227, 247, 1)),
+          foregroundColor: MaterialStatePropertyAll(Colors.black),
+        )),
 
         colorScheme: ColorScheme(
-          primary:Colors.white,
+          primary: Colors.white,
           //Picker颜色
           secondary: Colors.white,
           background: Colors.white,

@@ -23,6 +23,21 @@ class FavoriteProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> check(ContentEntity content)async {
+    bool flag=true;
+    for(int i=0;i<favorites.length;i++){
+      if(favorites[i].data!.id==content.data!.id&&favorites[i].data!.title==content.data!.title&&favorites[i].data!.content==content.data!.content){
+        flag=false;
+        break;
+      }
+    }
+    if(flag){
+      _isLiked=false;
+    }else{
+      _isLiked=true;
+    }
+  }
+
   Future<void> loadFavorites() async {
     try {
       final prefs = await SharedPreferences.getInstance();
