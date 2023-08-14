@@ -1,20 +1,28 @@
 import 'package:cumt_guide/dio/search/search_entity.dart';
 import 'package:dio/dio.dart';
-class DioModel{
+
+class DioModel {
   SearchEntity? model;
-  Future<SearchEntity?> getData()async{
-    if(model==null){
-      try{
-        Response res=await Dio().get("http://ekkosblog.online:9999/search",queryParameters: {
-          "query":"apple",
-          "type":"0",
-          "page":1,
-          "limit":10
-        },);
-        model=SearchEntity.fromJson(res.data);
+
+  Future<SearchEntity?> getData({
+    required String query,
+    required int type,
+  }) async {
+    if (model == null) {
+      try {
+        Response res = await Dio().get(
+          "http://ekkosblog.online:9999/search",
+          queryParameters: {
+            "query": query,
+            "type": type,
+            "page": 1,
+            "limit": 10,
+          },
+        );
+        model = SearchEntity.fromJson(res.data);
         print(model!.data);
         return model;
-      }catch(e){
+      } catch (e) {
         return null;
       }
     }
