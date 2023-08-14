@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../main1.dart';
+import '../main.dart';
 import '../util/prefs.dart';
 import '../theme/theme_color.dart';
 import 'drawer_button.dart';

@@ -1,18 +1,18 @@
-/// code : 1
-/// message : null
-/// data : {"total":0,"list":[],"pageNum":1,"pageSize":10,"size":0,"navigateLastPage":0}
-
 class SearchEntity {
   SearchEntity({
-      this.code, 
-      this.message, 
-      this.data,});
+    this.code,
+    this.message,
+    this.data,
+  });
 
   SearchEntity.fromJson(dynamic json) {
     code = json['code'];
     message = json['message'];
-    data = json['data'] != null ? Data.fromJson(json['data']) : null;
+    if (json['data'] != null) {
+      data = Data.fromJson(json['data']);
+    }
   }
+
   int? code;
   dynamic message;
   Data? data;
@@ -26,40 +26,33 @@ class SearchEntity {
     }
     return map;
   }
-
 }
-
-/// total : 0
-/// list : []
-/// pageNum : 1
-/// pageSize : 10
-/// size : 0
-/// navigateLastPage : 0
 
 class Data {
   Data({
-      this.total, 
-      this.list, 
-      this.pageNum, 
-      this.pageSize, 
-      this.size, 
-      this.navigateLastPage,});
+    this.total,
+    this.list,
+    this.pageNum,
+    this.pageSize,
+    this.size,
+    this.navigateLastPage,
+  });
 
   Data.fromJson(dynamic json) {
     total = json['total'];
     if (json['list'] != null) {
-      list = [];
-      json['list'].forEach((v) {
-        list?.add(Dynamic.fromJson(v));
-      });
+      list = List<Map<String, dynamic>>.from(json['list'].map((item) {
+        return Map<String, dynamic>.from(item);
+      }));
     }
     pageNum = json['pageNum'];
     pageSize = json['pageSize'];
     size = json['size'];
     navigateLastPage = json['navigateLastPage'];
   }
+
   int? total;
-  List<dynamic>? list;
+  List<Map<String, dynamic>>? list;
   int? pageNum;
   int? pageSize;
   int? size;
@@ -69,7 +62,7 @@ class Data {
     final map = <String, dynamic>{};
     map['total'] = total;
     if (list != null) {
-      map['list'] = list?.map((v) => v.toJson()).toList();
+      map['list'] = list;
     }
     map['pageNum'] = pageNum;
     map['pageSize'] = pageSize;
@@ -77,5 +70,4 @@ class Data {
     map['navigateLastPage'] = navigateLastPage;
     return map;
   }
-
 }

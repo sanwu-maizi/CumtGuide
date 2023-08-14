@@ -1,9 +1,9 @@
 import 'package:cumt_guide/dio/search/search_provider.dart';
-import 'package:cumt_guide/main1.dart';
+import 'package:cumt_guide/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../HomePage/button_index/button_index.dart';
+import '../../HomePage/button/button_index.dart';
 import '../../setting_Page/settings.dart';
 import '../../util/config.dart';
 import '../dio_model.dart';
