@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../content_entity.dart';
+import '../../../dio/ConcretePage/content_entity.dart';
 
 class FavoriteProvider with ChangeNotifier {
   List<ContentEntity> _favorites = [];

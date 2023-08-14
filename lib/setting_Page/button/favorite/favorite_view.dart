@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../content_entity.dart';
+import '../../../dio/ConcretePage/content_entity.dart';
 import '../like_button.dart';
 import 'favorite_button.dart';
 

@@ -2,7 +2,7 @@ import 'package:cumt_guide/setting_Page/button/favorite/favorite_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../content_entity.dart';
+import '../../../dio/ConcretePage/content_entity.dart';
 import 'history_provider.dart';
 
 toHistoryPage(BuildContext context) {

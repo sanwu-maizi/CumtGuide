@@ -1,13 +1,14 @@
-import 'package:cumt_guide/dio/dio_entity.dart';
 import 'package:dio/dio.dart';
-class DioModel{
-  DioEntity? model;
-  Future<DioEntity?> getData(String s)async{
-    if(model==null){
+import 'content_entity.dart';
+
+class ContentModel{
+  ContentEntity? data;
+  Future<ContentEntity?> getData(String s)async{
+    if(data==null){
       try{
         Response res=await Dio().get(s);
-        model=DioEntity.fromJson(res.data);
-        return model;
+        data=ContentEntity.fromJson(res.data);
+        return data;
       }catch(e){
         return null;
       }

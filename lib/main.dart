@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bot_toast/bot_toast.dart';
 import 'package:cumt_guide/setting_Page/button/favorite/favorite_button.dart';
 import 'package:cumt_guide/setting_Page/button/history/history_provider.dart';
@@ -9,10 +11,10 @@ import 'package:flutter/material.dart';
 import 'package:cumt_guide/HomePage/button/button_index.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:cumt_guide/dio/dio_model.dart';
+import 'package:cumt_guide/dio/Articletype/Articletype_model.dart';
 import 'package:cumt_guide/dio/search/search_page.dart';
 
-import 'dio/dio_entity.dart';
+import 'dio/Articletype/Articletype_entity.dart';
 import 'dio/search/search_provider.dart';
 import 'next_page.dart';
 import 'util/config.dart';
@@ -125,7 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             children: [
                               CircleAvatar(
                                 radius: MediaQuery.of(context).size.width * 0.21 * 0.45,
-                                backgroundImage: AssetImage("assets/2.jpg"),
+                                backgroundImage: FileImage(File(Prefs.avatarImagePath)),
                               ),
                               Material(
                                 color: Colors.transparent,
@@ -156,46 +158,60 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                           ),),
                         Expanded(
-                          child: SingleChildScrollView(
-                            physics: BouncingScrollPhysics(),
-                            child: Column(
-                              children: [
-                                Wrap(
-                                  spacing: MediaQuery.of(context).size.width * 0.02, // 调整字之间的间距
-                                  children: List.generate(items.length, (index) {
-                                    String text = items[index];
-                                    return Padding(
-                                      padding: EdgeInsets.only(
-                                        top: MediaQuery.of(context).size.height * 0.008,
-                                        bottom: MediaQuery.of(context).size.height * 0.008,
-                                      ),
-                                      child: ButtonIndex(
-                                        outerColor: Theme.of(context).canvasColor,
-                                        innerColor: Colors.white,
-                                        child: Align(
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                            text,
-                                            style: TextStyle(
-                                              fontSize: UIConfig.fontSizeSidebar,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.lightBlueAccent,
+                          child: FutureBuilder<DioEntity?>(
+                            future: _futureBuilder,
+                            builder: (BuildContext context, AsyncSnapshot<DioEntity?> snapshot) {
+                              if (snapshot.connectionState == ConnectionState.waiting) {
+                                return CircularProgressIndicator(); // Display loading indicator while waiting
+                              } else if (snapshot.hasError) {
+                                return Text("Error: ${snapshot.error}");
+                              } else if (snapshot.hasData) {
+                                return SingleChildScrollView(
+                                  physics: BouncingScrollPhysics(),
+                                  child: Column(
+                                    children: [
+                                      Wrap(
+                                        spacing: MediaQuery.of(context).size.width * 0.02,
+                                        children: List.generate(snapshot.data!.data!.length, (index) {
+                                          String text = snapshot.data!.data![index].typeName!;
+                                          return Padding(
+                                            padding: EdgeInsets.only(
+                                              top: MediaQuery.of(context).size.height * 0.008,
+                                              bottom: MediaQuery.of(context).size.height * 0.008,
                                             ),
-                                            overflow: TextOverflow.visible, // 设置overflow为visible
-                                            maxLines: 2, // 设置最大行数为2
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ),
+                                            child: ButtonIndex(
+                                              outerColor: Theme.of(context).canvasColor,
+                                              innerColor: Colors.white,
+                                              child: Align(
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  text,
+                                                  style: TextStyle(
+                                                    fontSize: UIConfig.fontSizeSidebar,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.lightBlueAccent,
+                                                  ),
+                                                  overflow: TextOverflow.visible,
+                                                  maxLines: 2,
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        }),
                                       ),
-                                    );
-                                  }),
-                                ),
-                              ],
-                            ),
+                                    ],
+                                  ),
+                                );
+                              } else {
+                                return Container(
+                                  height: MediaQuery.of(context).size.height * 0.75,
+                                  color: Colors.white,
+                                );
+                              }
+                            },
                           ),
                         ),
-
-
                       ],
                     ),
                   ),
@@ -268,7 +284,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                         );
                                       },
                                     );
-
                                   }else{
                                     return Container(height:MediaQuery.of(context).size.height * 0.75,
                                         color: Colors.white
