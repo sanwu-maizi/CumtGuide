@@ -67,7 +67,7 @@ class AppTheme {
           onError: Colors.white,
           onPrimary: Colors.white,
           onSecondary: Colors.black38,
-          onSurface: Colors.black38,
+          onSurface: Colors.white,
           surface: Colors.black12,
         ),
       ),
@@ -113,7 +113,7 @@ class AppTheme {
         )),
 
         colorScheme: ColorScheme(
-          primary: Colors.white,
+          primary: Color.fromRGBO(245, 244, 249, 1),
           //Picker颜色
           secondary: Colors.white,
           background: Colors.white,
@@ -121,9 +121,9 @@ class AppTheme {
           brightness: Brightness.light,
           onBackground: Colors.white,
           onError: Colors.white,
-          onPrimary: Colors.white,
+          onPrimary: Color(0xFF88ABDA),
           onSecondary: Colors.white,
-          onSurface: Colors.white,
+          onSurface: Colors.lightBlueAccent,
           surface: Colors.white,
         ),
       ),

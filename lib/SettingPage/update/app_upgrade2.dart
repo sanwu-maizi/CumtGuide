@@ -52,7 +52,6 @@ class Update {
     }else if(Platform.isWindows){
       Update.platform = 'Windows';
     }
-    print(Update.platform);
 
     // 获取用户版本
     try {
@@ -67,10 +66,8 @@ class Update {
           data: rawJsonData);
 
       Map<String, dynamic> mapData = jsonDecode(res.toString());
-      print(res.data!);
       if (mapData["description"]== "没有可用的更新") {if (auto==false) showToast("当前为最新版本！");}
       else {
-        //print(Update.version);
         upVersion = mapData['data']['latestVersion'];
         upDateUrl = mapData['data']['updateUrl'];
         uri = Uri.parse(upDateUrl!);

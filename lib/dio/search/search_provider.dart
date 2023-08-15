@@ -22,7 +22,7 @@ class SearchProvider with ChangeNotifier {
       await _saveHistoryToPrefs();
       notifyListeners();
     } else {
-      if(query!=" "&&query!="  "&&query!="   ")_history.add(query);
+      if(query!=" "&&query!="  "&&query!="   "&&query[0]!="{")_history.add(query);
       await _saveHistoryToPrefs();
       notifyListeners();
     }

@@ -14,7 +14,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:cumt_guide/dio/Articletype/Articletype_model.dart';
 import 'package:cumt_guide/dio/search/search_page.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 
 import 'DynamicsPage/dynamicsPage.dart';
@@ -100,10 +99,9 @@ class _MyHomePageState extends State<MyHomePage> {
   var _futureBuilder,_futureBuilder2;
 
   void _fetchData(String query, String type) {
-    _futureBuilder2 = _model2.getData(query: query, type: type);
     setState(() {
       print("Fetching data with query: $query, type: $type");
-
+      _futureBuilder2 = _model2.getData(query: query, type: type);
       print("FutureBuilder2 data: $_futureBuilder2"); // Add this line to print the data
     });
   }
@@ -144,7 +142,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Expanded(
             flex: 90,
             child: Container(
-              color: Theme.of(context).cardTheme.color,
+              color: Theme.of(context).colorScheme.primary,
               child: Row(
                 children: [
                   Expanded(
@@ -183,14 +181,14 @@ class _MyHomePageState extends State<MyHomePage> {
                               0.02),
                           child: ButtonIndex(
                             outerColor: Theme.of(context).canvasColor,
-                            innerColor: Colors.white,
+                            innerColor: Theme.of(context).colorScheme.onSecondary,
                             onPressed: () {
                               toSearchPage(context);
                             },
                             child: Icon(
                               Icons.search,
                               size: 40,
-                              color: Color(0xFF88ABDA),
+                              color: Theme.of(context).colorScheme.onPrimary,
                             ),
                           ),),
                         Expanded(
@@ -217,7 +215,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                             ),
                                             child: ButtonIndex(
                                               outerColor: Theme.of(context).canvasColor,
-                                              innerColor: Colors.white,
+                                              innerColor: Theme.of(context).colorScheme.onSecondary,
                                               onPressed: () {
                                                 String query = snapshot.data!.data![index].id!; // Get the query from data
                                                 String type = "2"; // Set your type value here
@@ -231,7 +229,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                   style: TextStyle(
                                                     fontSize: UIConfig.fontSizeSidebar,
                                                     fontWeight: FontWeight.bold,
-                                                    color: Colors.lightBlueAccent,
+                                                    color: Theme.of(context).colorScheme.onSurface,
                                                   ),
                                                   overflow: TextOverflow.visible,
                                                   maxLines: 2,
@@ -257,93 +255,95 @@ class _MyHomePageState extends State<MyHomePage> {
                       ],
                     ),
                   ),
-                  VerticalDivider(
-                    color: Colors.grey,
-                    width: 1,
-                  ),
                   Expanded(
                       flex: 79,
-                      child: Column(
-                        children: [
-                          Expanded(
-                            flex:2,
-                            child: Image.asset("assets/img.png",fit: BoxFit.fill),
-                          ),
-                          Expanded(
-                            flex:8,
-                            child: FutureBuilder<SearchEntity?>(
-                                future: _futureBuilder2,
-                                builder: (BuildContext context, AsyncSnapshot<SearchEntity?> snapshot){
-                                  if(snapshot.hasData){
-                                    final searchEntity = snapshot.data!;
-                                    print("SearchEntity data: ${searchEntity.data?.list}");
-                                    if (searchEntity.data != null && searchEntity.data!.list != null) {
-                                    return ListView.builder(
-                                      shrinkWrap: true,
-                                      itemCount: snapshot.data!.data?.list?.length ?? 0,
-                                      itemBuilder: (BuildContext context, int index) {
-                                        return InkWell(
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(builder: (context) => NextPage(articleId: snapshot.data!.data?.list?[index]['id'])),
-                                            );
-                                          },
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              color: Colors.grey[200], // 背景颜色
-                                              borderRadius: BorderRadius.circular(10.0), // 圆角
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.grey.withOpacity(1), // 阴影颜色
-                                                  spreadRadius: 1,
-                                                  blurRadius: 4,
-                                                  offset: Offset(3, 3), // 阴影偏移
-                                                ),
-                                              ],
-                                            ),
-                                            margin: EdgeInsets.symmetric(vertical: 7.0, horizontal: 13.0),
-                                            padding: EdgeInsets.fromLTRB(15.0,5.0,5.0,5.0),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  snapshot.data!.data?.list?[index]['id'] ?? "",
-                                                  style: TextStyle(
-                                                    fontSize: 18, // 标题字体大小偏大
-                                                    fontWeight: FontWeight.bold, // 标题字体加粗
-                                                    color: Colors.grey[600], // 标题字体颜色
-                                                  ),
-                                                ),
-                                                SizedBox(height: 5), // 间距
-                                                Text(
-                                                  "Date: ${snapshot.data!.data?.list?[index]['createTime']}",
-                                                  style: TextStyle(
-                                                    fontSize: 14, // 内容字体大小偏小
-                                                    color: Colors.grey[300], // 内容字体颜色
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    );
-                                  }else{
-                                    return Container(height:MediaQuery.of(context).size.height * 0.75,
-                                        color: Colors.white
-                                    );
-                                  }
-                                } else {
-                                    return Container(
-                                      height: MediaQuery.of(context).size.height * 0.75,
-                                      color: Colors.white,
-                                    );
-                                  }
-                                },
+                      child: Container(
+                        color: Theme.of(context).colorScheme.background,
+                        child: Column(
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child: Padding(
+                                padding: EdgeInsets.all(5), // Adjust the padding as needed
+                                child: Image.asset("assets/img.png", fit: BoxFit.fill),
+                              ),
                             ),
-                          )
-                        ],
+                            Expanded(
+                              flex:8,
+                              child: FutureBuilder<SearchEntity?>(
+                                  future: _futureBuilder2,
+                                  builder: (BuildContext context, AsyncSnapshot<SearchEntity?> snapshot){
+                                    if(snapshot.hasData){
+                                      final searchEntity = snapshot.data!;
+                                      print("SearchEntity data: ${searchEntity.data?.list}");
+                                      if (searchEntity.data != null && searchEntity.data!.list != null) {
+                                      return ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: snapshot.data!.data?.list?.length ?? 0,
+                                        itemBuilder: (BuildContext context, int index) {
+                                          return InkWell(
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(builder: (context) => NextPage(articleId: snapshot.data!.data?.list?[index]['id'])),
+                                              );
+                                            },
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: Colors.grey[200], // 背景颜色
+                                                borderRadius: BorderRadius.circular(10.0), // 圆角
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey.withOpacity(1), // 阴影颜色
+                                                    spreadRadius: 1,
+                                                    blurRadius: 4,
+                                                    offset: Offset(3, 3), // 阴影偏移
+                                                  ),
+                                                ],
+                                              ),
+                                              margin: EdgeInsets.symmetric(vertical: 7.0, horizontal: 13.0),
+                                              padding: EdgeInsets.fromLTRB(15.0,5.0,5.0,5.0),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    snapshot.data!.data?.list?[index]['id'] ?? "",
+                                                    style: TextStyle(
+                                                      fontSize: 18, // 标题字体大小偏大
+                                                      fontWeight: FontWeight.bold, // 标题字体加粗
+                                                      color: Colors.grey[600], // 标题字体颜色
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: 5), // 间距
+                                                  Text(
+                                                    "Date: ${snapshot.data!.data?.list?[index]['createTime']}",
+                                                    style: TextStyle(
+                                                      fontSize: 14, // 内容字体大小偏小
+                                                      color: Colors.grey[300], // 内容字体颜色
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    }else{
+                                      return Container(height:MediaQuery.of(context).size.height * 0.75,
+                                          color: Colors.white
+                                      );
+                                    }
+                                  } else {
+                                      return Container(
+                                        height: MediaQuery.of(context).size.height * 0.75,
+                                        color: Colors.white,
+                                      );
+                                    }
+                                  },
+                              ),
+                            )
+                          ],
+                        ),
                       )
                   ),
                 ],

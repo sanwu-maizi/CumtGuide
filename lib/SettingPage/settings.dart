@@ -149,7 +149,7 @@ class _SettingPageState extends State<SettingPage> {
           Expanded(
             flex: 4,
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width *0.03),
+              padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width *0.04),
               child:
                 Flex(
                   direction: Axis.vertical,

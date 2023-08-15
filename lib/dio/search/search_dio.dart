@@ -8,7 +8,6 @@ class search_Model {
     required String query,
     required String type,
   }) async {
-    if (model == null) {
       try {
         final rawJsonData = {
           "query": query,
@@ -41,7 +40,6 @@ class search_Model {
         print("Request error: $e");
         return null;
       }
-    }
   }
 
 
