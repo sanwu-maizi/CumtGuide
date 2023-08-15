@@ -42,10 +42,6 @@ class MyListViewWidget extends StatelessWidget {
   Widget buildListViewItem(BuildContext context, Data data) {
     return InkWell(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => NextPage()),
-        );
       },
       child: Container(
         decoration: BoxDecoration(

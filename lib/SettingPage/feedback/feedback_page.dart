@@ -1,4 +1,4 @@
-import 'package:cumt_guide/setting_Page/feedback/toast.dart';
+import 'package:cumt_guide/SettingPage/feedback/toast.dart';
 
 import '../../util/config.dart';
 import 'package:flutter/material.dart';

@@ -4,13 +4,14 @@
 
 class DioEntity {
   DioEntity({
-      num? code, 
-      dynamic message, 
-      List<Data>? data,}){
+    num? code,
+    dynamic message,
+    List<Data>? data,
+  }) {
     _code = code;
     _message = message;
     _data = data;
-}
+  }
 
   DioEntity.fromJson(dynamic json) {
     _code = json['code'];
@@ -25,13 +26,16 @@ class DioEntity {
   num? _code;
   dynamic _message;
   List<Data>? _data;
-DioEntity copyWith({  num? code,
-  dynamic message,
-  List<Data>? data,
-}) => DioEntity(  code: code ?? _code,
-  message: message ?? _message,
-  data: data ?? _data,
-);
+  DioEntity copyWith({
+    num? code,
+    dynamic message,
+    List<Data>? data,
+  }) =>
+      DioEntity(
+        code: code ?? _code,
+        message: message ?? _message,
+        data: data ?? _data,
+      );
   num? get code => _code;
   dynamic get message => _message;
   List<Data>? get data => _data;
@@ -45,7 +49,6 @@ DioEntity copyWith({  num? code,
     }
     return map;
   }
-
 }
 
 /// id : "1"
@@ -53,11 +56,12 @@ DioEntity copyWith({  num? code,
 
 class Data {
   Data({
-      String? id, 
-      String? typeName,}){
+    String? id,
+    String? typeName,
+  }) {
     _id = id;
     _typeName = typeName;
-}
+  }
 
   Data.fromJson(dynamic json) {
     _id = json['id'];
@@ -65,11 +69,14 @@ class Data {
   }
   String? _id;
   String? _typeName;
-Data copyWith({  String? id,
-  String? typeName,
-}) => Data(  id: id ?? _id,
-  typeName: typeName ?? _typeName,
-);
+  Data copyWith({
+    String? id,
+    String? typeName,
+  }) =>
+      Data(
+        id: id ?? _id,
+        typeName: typeName ?? _typeName,
+      );
   String? get id => _id;
   String? get typeName => _typeName;
 
@@ -79,5 +86,4 @@ Data copyWith({  String? id,
     map['typeName'] = _typeName;
     return map;
   }
-
 }

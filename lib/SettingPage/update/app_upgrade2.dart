@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
-import 'package:package_info/package_info.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:cumt_guide/util/config.dart';
 
@@ -46,11 +46,11 @@ class Update {
 
     //Update.platform = Platform.operatingSystem;     //判断不了windows
     if(Platform.isAndroid){
-      Update.platform = 'android';
+      Update.platform = 'Android';
     }else if(Platform.isIOS){
       Update.platform = 'ios';
     }else if(Platform.isWindows){
-      Update.platform = 'windows';
+      Update.platform = 'Windows';
     }
     print(Update.platform);
 
@@ -58,20 +58,23 @@ class Update {
     try {
       await Update.getVersion();
       Dio dio = Dio();
-      Response res = await dio.get("http://47.115.228.176:8080/update/check",
-          queryParameters: {
-            'version': Update.version.toString(),
-            'platform': Update.platform
-          });
-      //mapData = res.data;
+      print(Update.platform);
+      final rawJsonData = {
+        "version": Update.version.toString(),
+        "platform": Update.platform
+      };
+      Response res = await dio.post("http://ekkosblog.online:9999/checkVersion",
+          data: rawJsonData);
+
       Map<String, dynamic> mapData = jsonDecode(res.toString());
-      print(mapData);
+      print(res.data!);
       if (mapData["description"]== "没有可用的更新") {if (auto==false) showToast("当前为最新版本！");}
       else {
         //print(Update.version);
-        Update.upVersion = mapData['version'];
-        Update.upDateUrl = mapData['url'];
-        Update.upDateDescription = mapData['description'];
+        upVersion = mapData['data']['latestVersion'];
+        upDateUrl = mapData['data']['updateUrl'];
+        uri = Uri.parse(upDateUrl!);
+        //upDateDescription = mapData['data']['updateAvailable'];
         Update.uri = Uri.parse(Update.upDateUrl!);
         //showToast("获取最新版本失败(X_X)");
       }
@@ -93,7 +96,7 @@ class Update {
   // 得到用户的是否忽略选择
   static Future<bool?> getIsIgnore() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getBool('isIgnore');
+    return prefs.getBool('updateAvailable');
   }
 
   // 存储用户的是否忽略选择

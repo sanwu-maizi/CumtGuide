@@ -1,11 +1,12 @@
 import 'dart:io';
 
 import 'package:bot_toast/bot_toast.dart';
-import 'package:cumt_guide/setting_Page/button/favorite/favorite_button.dart';
-import 'package:cumt_guide/setting_Page/button/history/history_provider.dart';
-import 'package:cumt_guide/setting_Page/button/like_button.dart';
+import 'package:cumt_guide/SettingPage/button/favorite/favorite_button.dart';
+import 'package:cumt_guide/SettingPage/button/history/history_provider.dart';
+import 'package:cumt_guide/SettingPage/button/like_button.dart';
+import 'package:cumt_guide/SettingPage/update/app_upgrade2.dart';
 import 'package:cumt_guide/util/prefs.dart';
-import 'package:cumt_guide/setting_Page/settings.dart';
+import 'package:cumt_guide/SettingPage/settings.dart';
 import 'package:cumt_guide/theme/theme_color.dart';
 import 'package:flutter/material.dart';
 import 'package:cumt_guide/HomePage/button/button_index.dart';
@@ -13,8 +14,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:cumt_guide/dio/Articletype/Articletype_model.dart';
 import 'package:cumt_guide/dio/search/search_page.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
+
+import 'DynamicsPage/dynamicsPage.dart';
 import 'dio/Articletype/Articletype_entity.dart';
+import 'dio/search/search_dio.dart';
+import 'dio/search/search_entity.dart';
 import 'dio/search/search_provider.dart';
 import 'next_page.dart';
 import 'util/config.dart';
@@ -76,6 +82,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
   List<String> items = [
     '教务信息',
     '医保',
@@ -90,21 +97,47 @@ class _MyHomePageState extends State<MyHomePage> {
 
   String  s="http://ekkosblog.online:9999/types";
 
-  var _futureBuilder;
+  var _futureBuilder,_futureBuilder2;
 
+  void _fetchData(String query, String type) {
+    _futureBuilder2 = _model2.getData(query: query, type: type);
+    setState(() {
+      print("Fetching data with query: $query, type: $type");
+
+      print("FutureBuilder2 data: $_futureBuilder2"); // Add this line to print the data
+    });
+  }
+
+  final search_Model _model2=search_Model();
   final DioModel _model=DioModel();
   @override
   void initState(){
     super.initState();
+
+    Update.checkNeedUpdate(context, auto: true).then((_) {
+      if (Update.isUpDate == true && Update.isIgnore == true) {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return UpgradeDialog();
+            });
+      }
+    });
+
+
     _futureBuilder=_model.getData(s);
+    _futureBuilder.then((DioEntity? entity) {
+      if (entity != null && entity.data != null && entity.data!.isNotEmpty) {
+        _fetchData(entity.data![0].id!, "2"); // Use the id value of the first item
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-      ),
+      // bottomNavigationBar: buildBottomNavigationBar(),
+      resizeToAvoidBottomInset: false,
       backgroundColor: Theme.of(context).cardTheme.color,
       body: Column(
         children: [
@@ -151,6 +184,9 @@ class _MyHomePageState extends State<MyHomePage> {
                           child: ButtonIndex(
                             outerColor: Theme.of(context).canvasColor,
                             innerColor: Colors.white,
+                            onPressed: () {
+                              toSearchPage(context);
+                            },
                             child: Icon(
                               Icons.search,
                               size: 40,
@@ -182,6 +218,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                             child: ButtonIndex(
                                               outerColor: Theme.of(context).canvasColor,
                                               innerColor: Colors.white,
+                                              onPressed: () {
+                                                String query = snapshot.data!.data![index].id!; // Get the query from data
+                                                String type = "2"; // Set your type value here
+                                                _fetchData(query, type);
+                                                setState(() {});
+                                              },
                                               child: Align(
                                                 alignment: Alignment.center,
                                                 child: Text(
@@ -229,19 +271,22 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                           Expanded(
                             flex:8,
-                            child: FutureBuilder<DioEntity?>(
-                                future: _futureBuilder,
-                                builder: (BuildContext context, AsyncSnapshot<DioEntity?> snapshot){
+                            child: FutureBuilder<SearchEntity?>(
+                                future: _futureBuilder2,
+                                builder: (BuildContext context, AsyncSnapshot<SearchEntity?> snapshot){
                                   if(snapshot.hasData){
+                                    final searchEntity = snapshot.data!;
+                                    print("SearchEntity data: ${searchEntity.data?.list}");
+                                    if (searchEntity.data != null && searchEntity.data!.list != null) {
                                     return ListView.builder(
                                       shrinkWrap: true,
-                                      itemCount: snapshot.data!.data!.length,
+                                      itemCount: snapshot.data!.data?.list?.length ?? 0,
                                       itemBuilder: (BuildContext context, int index) {
                                         return InkWell(
                                           onTap: () {
                                             Navigator.push(
                                               context,
-                                              MaterialPageRoute(builder: (context) => NextPage()),
+                                              MaterialPageRoute(builder: (context) => NextPage(articleId: snapshot.data!.data?.list?[index]['id'])),
                                             );
                                           },
                                           child: Container(
@@ -263,7 +308,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  snapshot.data!.data![index].id!,
+                                                  snapshot.data!.data?.list?[index]['id'] ?? "",
                                                   style: TextStyle(
                                                     fontSize: 18, // 标题字体大小偏大
                                                     fontWeight: FontWeight.bold, // 标题字体加粗
@@ -272,7 +317,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 ),
                                                 SizedBox(height: 5), // 间距
                                                 Text(
-                                                  "Date: ${snapshot.data!.data![index].id}",
+                                                  "Date: ${snapshot.data!.data?.list?[index]['createTime']}",
                                                   style: TextStyle(
                                                     fontSize: 14, // 内容字体大小偏小
                                                     color: Colors.grey[300], // 内容字体颜色
@@ -289,7 +334,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                         color: Colors.white
                                     );
                                   }
-                                }),
+                                } else {
+                                    return Container(
+                                      height: MediaQuery.of(context).size.height * 0.75,
+                                      color: Colors.white,
+                                    );
+                                  }
+                                },
+                            ),
                           )
                         ],
                       )

@@ -1,8 +1,8 @@
-import 'package:cumt_guide/setting_Page/button/favorite/favorite_button.dart';
-import 'package:cumt_guide/setting_Page/button/favorite/favorite_page.dart';
-import 'package:cumt_guide/setting_Page/button/history/history_page.dart';
-import 'package:cumt_guide/setting_Page/button/history/history_provider.dart';
-import 'package:cumt_guide/setting_Page/button/like_button.dart';
+import 'package:cumt_guide/SettingPage/button/favorite/favorite_button.dart';
+import 'package:cumt_guide/SettingPage/button/favorite/favorite_page.dart';
+import 'package:cumt_guide/SettingPage/button/history/history_page.dart';
+import 'package:cumt_guide/SettingPage/button/history/history_provider.dart';
+import 'package:cumt_guide/SettingPage/button/like_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -10,7 +10,9 @@ import 'dio/ConcretePage/content_entity.dart';
 import 'dio/ConcretePage/content_model.dart';
 
 class NextPage extends StatefulWidget {
-  const NextPage({Key? key}) : super(key: key);
+  final String articleId;
+
+  const NextPage({Key? key, required this.articleId}) : super(key: key);
 
   @override
   State<NextPage> createState() => _NextPageState();
@@ -21,7 +23,6 @@ class _NextPageState extends State<NextPage> with AutomaticKeepAliveClientMixin{
   final ScrollController _controller = ScrollController();
   bool flag2 = true;
   var _futureBuilderFuture;
-  String s='http://ekkosblog.online:9999/articleDetails/1';
 
 
   @override
@@ -32,6 +33,7 @@ class _NextPageState extends State<NextPage> with AutomaticKeepAliveClientMixin{
     super.initState();
     Provider.of<FavoriteProvider>(context, listen: false).loadFavorites();
     Provider.of<HistoryProvider>(context, listen: false).loadHistory();
+    String s='http://ekkosblog.online:9999/articleDetails/${widget.articleId}';
     _futureBuilderFuture = _model.getData(s);
   }
 

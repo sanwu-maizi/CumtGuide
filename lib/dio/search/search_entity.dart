@@ -8,9 +8,10 @@ class SearchEntity {
   SearchEntity.fromJson(dynamic json) {
     code = json['code'];
     message = json['message'];
-    if (json['data'] != null) {
+    if (json['data'] != null && json['data'] is Map) {
       data = Data.fromJson(json['data']);
     }
+
   }
 
   int? code;
@@ -40,7 +41,7 @@ class Data {
 
   Data.fromJson(dynamic json) {
     total = json['total'];
-    if (json['list'] != null) {
+    if (json['list'] != null && json['list'] is List) {
       list = List<Map<String, dynamic>>.from(json['list'].map((item) {
         return Map<String, dynamic>.from(item);
       }));
@@ -57,6 +58,7 @@ class Data {
   int? pageSize;
   int? size;
   int? navigateLastPage;
+
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

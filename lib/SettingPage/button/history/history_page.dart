@@ -1,4 +1,4 @@
-import 'package:cumt_guide/setting_Page/button/favorite/favorite_view.dart';
+import 'package:cumt_guide/SettingPage/button/favorite/favorite_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

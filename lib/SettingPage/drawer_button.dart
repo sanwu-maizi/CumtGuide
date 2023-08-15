@@ -1,4 +1,5 @@
-import 'package:cumt_guide/setting_Page/button/history/history_page.dart';
+import 'package:cumt_guide/SettingPage/button/history/history_page.dart';
+import 'package:cumt_guide/SettingPage/update/app_upgrade2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -170,15 +171,15 @@ class _UpdatecheckButtonState extends State<UpdatecheckButton> {
   Widget build(BuildContext context) {
     return InkWell(
         onTap: () {
-          // Update.checkNeedUpdate(context, auto: false).then((_) {
-          //   if (Update.isUpDate == true) {
-          //     showDialog(
-          //         context: context,
-          //         builder: (BuildContext context) {
-          //           return UpgradeDialog2();
-          //         });
-          //   }
-          // });
+          Update.checkNeedUpdate(context, auto: false).then((_) {
+            if (Update.isUpDate == true) {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return UpgradeDialog2();
+                  });
+            }
+          });
         },
         child: SizedBox(
           //height: MediaQuery.of(context).size.height*0.045,
