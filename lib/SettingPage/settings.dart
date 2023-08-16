@@ -57,7 +57,7 @@ class _SettingPageState extends State<SettingPage> {
                           CircleAvatar(
                             radius:
                                 MediaQuery.of(context).size.width * 0.21 * 0.8,
-                            backgroundImage: FileImage(File(Prefs.avatarImagePath))
+                            backgroundImage: AssetImage("assets/2.jpg"),
                           ),
                           Text(Prefs.cumtLoginUsername,
                               style: TextStyle(

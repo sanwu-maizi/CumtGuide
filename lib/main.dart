@@ -158,7 +158,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             children: [
                               CircleAvatar(
                                 radius: MediaQuery.of(context).size.width * 0.21 * 0.45,
-                                backgroundImage: FileImage(File(Prefs.avatarImagePath)),
+                                backgroundImage: AssetImage("assets/2.jpg"),
                               ),
                               Material(
                                 color: Colors.transparent,

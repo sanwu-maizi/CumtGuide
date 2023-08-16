@@ -78,7 +78,7 @@ class AppTheme {
     return AppTheme(
       ThemeData(
         cardTheme: const CardTheme(
-          color: Color.fromRGBO(245, 244, 249, 1), // 更改Card的颜色
+          color: Colors.white, // 更改Card的颜色
         ),
         canvasColor: Color(0xFFD1EBFF),
 

@@ -370,7 +370,7 @@ class _FavoriteButtonState extends State<FavoriteButton> {
               child: Row(
                 children: [
                   Expanded(
-                    child: Text("俺的收藏",
+                    child: Text("我的收藏",
                         style: TextStyle(fontSize: UIConfig.fontSizeMain)),
                   ),
                   Icon(
