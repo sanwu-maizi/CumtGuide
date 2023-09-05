@@ -46,6 +46,7 @@ dependencies:
   image_picker: ^0.8.7 # 图片选择，用于访问本地相册
   photo_view: ^0.14.0 #允许用户放大查看图片
   persistent_bottom_nav_bar: ^5.0.2  #底部导航栏
+  flutter_markdown: ^0.6.15
 
 
 dev_dependencies:

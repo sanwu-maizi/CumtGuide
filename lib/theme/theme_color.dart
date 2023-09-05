@@ -80,7 +80,7 @@ class AppTheme {
         cardTheme: const CardTheme(
           color: Colors.white, // 更改Card的颜色
         ),
-        canvasColor: Color(0xFFD1EBFF),
+        canvasColor: Color.fromRGBO(103,173,248,1),
 
         appBarTheme: const AppBarTheme(),
         textTheme: const TextTheme(),

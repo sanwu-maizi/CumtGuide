@@ -228,10 +228,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                                   text,
                                                   style: TextStyle(
                                                     fontSize: UIConfig.fontSizeSidebar,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Theme.of(context).colorScheme.onSurface,
+                                                    fontWeight: FontWeight.w700, // 增加字体粗细
+                                                    color: Theme.of(context).canvasColor,
                                                   ),
                                                   overflow: TextOverflow.visible,
+                                                  textWidthBasis: TextWidthBasis.parent,
                                                   maxLines: 2,
                                                   textAlign: TextAlign.center,
                                                 ),
