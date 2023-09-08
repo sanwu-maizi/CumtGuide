@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +11,7 @@ import '../util/config.dart';
 import 'dart:io';
 
 toSettingPage(BuildContext context) {
-  Navigator.of(context).push(MaterialPageRoute(
+  Navigator.of(context).push(CupertinoPageRoute(
     builder: (context) => const SettingPage(),
     fullscreenDialog: true, // 路由为全屏模式
   ));

@@ -8,8 +8,10 @@ import 'package:cumt_guide/SettingPage/update/app_upgrade2.dart';
 import 'package:cumt_guide/util/prefs.dart';
 import 'package:cumt_guide/SettingPage/settings.dart';
 import 'package:cumt_guide/theme/theme_color.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:cumt_guide/HomePage/button/button_index.dart';
+import 'package:cumt_guide/HomePage/component/button_index.dart';
+import 'package:cumt_guide/HomePage/component/articleListInkwell.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:cumt_guide/dio/Articletype/Articletype_model.dart';
@@ -282,50 +284,20 @@ class _MyHomePageState extends State<MyHomePage> {
                                         shrinkWrap: true,
                                         itemCount: snapshot.data!.data?.list?.length ?? 0,
                                         itemBuilder: (BuildContext context, int index) {
-                                          return InkWell(
+                                          return ArticleListInkWell(
                                             onTap: () {
                                               Navigator.push(
                                                 context,
-                                                MaterialPageRoute(builder: (context) => NextPage(articleId: snapshot.data!.data?.list?[index]['id'])),
+                                                CupertinoPageRoute(
+                                                  builder: (context) => NextPage(articleId: snapshot.data!.data?.list?[index]['id']),
+                                                ),
                                               );
                                             },
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                color: Colors.grey[200], // 背景颜色
-                                                borderRadius: BorderRadius.circular(10.0), // 圆角
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: Colors.grey.withOpacity(1), // 阴影颜色
-                                                    spreadRadius: 1,
-                                                    blurRadius: 4,
-                                                    offset: Offset(3, 3), // 阴影偏移
-                                                  ),
-                                                ],
-                                              ),
-                                              margin: EdgeInsets.symmetric(vertical: 7.0, horizontal: 13.0),
-                                              padding: EdgeInsets.fromLTRB(15.0,5.0,5.0,5.0),
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    snapshot.data!.data?.list?[index]['id'] ?? "",
-                                                    style: TextStyle(
-                                                      fontSize: 18, // 标题字体大小偏大
-                                                      fontWeight: FontWeight.bold, // 标题字体加粗
-                                                      color: Colors.grey[600], // 标题字体颜色
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 5), // 间距
-                                                  Text(
-                                                    "Date: ${snapshot.data!.data?.list?[index]['createTime']}",
-                                                    style: TextStyle(
-                                                      fontSize: 14, // 内容字体大小偏小
-                                                      color: Colors.grey[300], // 内容字体颜色
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
+                                            title: snapshot.data!.data?.list?[index]['title'] ?? "",
+                                            author: "信息平台官方",
+                                            createTime: snapshot.data!.data?.list?[index]['createTime'] ?? "",
+                                            content: snapshot.data!.data?.list?[index]['content'] ?? "",
+                                            likes: snapshot.data!.data?.list?[index]['likes'] ?? 0,
                                           );
                                         },
                                       );
