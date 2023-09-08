@@ -84,18 +84,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  List<String> items = [
-    '教务信息',
-    '医保',
-    '转专业',
-    '新生指南',
-    '教务信息1',
-    '教务信息2',
-    '教务信息3',
-    '教务信息4',
-    '教务信息',
-  ];
-
   String  s="http://ekkosblog.online:9999/types";
 
   var _futureBuilder,_futureBuilder2;
@@ -215,7 +203,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                               top: MediaQuery.of(context).size.height * 0.008,
                                               bottom: MediaQuery.of(context).size.height * 0.008,
                                             ),
-                                            child: ButtonIndex(
+                                          child: ButtonIndex(
                                               outerColor: Theme.of(context).canvasColor,
                                               innerColor: Theme.of(context).colorScheme.onSecondary,
                                               onPressed: () {

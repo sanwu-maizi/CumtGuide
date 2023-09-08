@@ -28,7 +28,7 @@ class _SearchResult extends State<SearchResult> {
         iconTheme: IconThemeData(
           color: Theme.of(context).iconTheme.color,
         ),
-        title: Text('搜索结果'),
+        title: Text('搜索结'),
       ),
       body: FutureBuilder<SearchEntity?>(
           future: futureBuild,
