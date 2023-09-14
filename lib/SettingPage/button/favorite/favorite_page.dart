@@ -19,8 +19,15 @@ class FavoritePage extends StatelessWidget {
     final favorite = favoriteProvider.favorites;
 
     return Scaffold(
-      backgroundColor: Theme.of(context).cardTheme.color,
+      backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       appBar: AppBar(
+        elevation: 0.3,
+        backgroundColor: Theme.of(context).backgroundColor,
+        leading: InkWell(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: Icon(Icons.arrow_back_ios_new_outlined)),
         iconTheme: IconThemeData(
           color: Theme.of(context).iconTheme.color,
         ),
@@ -39,10 +46,10 @@ class FavoritePage extends StatelessWidget {
               },
               background: Container(
                 color: Colors.red,
-                child: Align(
+                child: const Align(
                   alignment: Alignment.centerRight,
                   child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(8.0),
                       child: Icon(Icons.close)
                   ),
                 ),

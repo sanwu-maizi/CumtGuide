@@ -9,7 +9,7 @@ class SearchProvider with ChangeNotifier {
   Future<void> loadHistory() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      _history = prefs.getStringList('history') ?? [];
+      _history = prefs.getStringList('search') ?? [];
     } catch (e) {
       print('Error loading history: $e');
     }
@@ -22,9 +22,10 @@ class SearchProvider with ChangeNotifier {
       await _saveHistoryToPrefs();
       notifyListeners();
     } else {
-      if(query!=" "&&query!="  "&&query!="   "&&query[0]!="{")_history.add(query);
+      if(query!=" "&&query!="  "&&query!="   ")_history.add(query);
       await _saveHistoryToPrefs();
       notifyListeners();
+
     }
   }
 
@@ -45,7 +46,7 @@ class SearchProvider with ChangeNotifier {
   Future<void> _saveHistoryToPrefs() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      await prefs.setStringList('history', _history);
+      await prefs.setStringList('search', _history);
     } catch (e) {
       print('Error saving history: $e');
     }

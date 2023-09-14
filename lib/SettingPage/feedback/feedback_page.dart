@@ -29,14 +29,14 @@ class _FeedBackPageState extends State<FeedBackPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).cardTheme.color,
+      backgroundColor: Theme.of(context).backgroundColor,
       body: Center(
         child: Column(
           children: [
             Container(
               height: MediaQuery.of(context).size.height * 0.119,
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary,
+                color: Theme.of(context).backgroundColor,
                 boxShadow: [
                   BoxShadow(
                     color:Theme.of(context).brightness != Brightness.dark
@@ -90,6 +90,7 @@ class _FeedBackPageState extends State<FeedBackPage> {
                     child: Container(
                       padding: EdgeInsets.fromLTRB(UIConfig.paddingAll, UIConfig.paddingAll, UIConfig.paddingAll, 0),
                       decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height*0.01)),
                           color: Theme.of(context).colorScheme.primary),
                       child: Column(
                         children: [
@@ -121,6 +122,7 @@ class _FeedBackPageState extends State<FeedBackPage> {
                     child: Container(
                       padding: EdgeInsets.all(UIConfig.paddingAll),
                       decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height*0.01)),
                           color: Theme.of(context).colorScheme.primary),
                       child: Column(
                         children: [
@@ -163,6 +165,7 @@ class _FeedBackPageState extends State<FeedBackPage> {
                           padding: const EdgeInsets.symmetric(horizontal: 0),
                           width: double.infinity,
                           decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height*0.01)),
                               color: Theme.of(context).colorScheme.primary),
                           child: Row(
                             children: [

@@ -21,8 +21,14 @@ class HistoryPage extends StatelessWidget {
     final history = historyProvider.history;
 
     return Scaffold(
-      backgroundColor: Theme.of(context).cardTheme.color,
+      backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       appBar: AppBar(
+        elevation: 0.3,
+        leading: InkWell(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: Icon(Icons.arrow_back_ios_new_outlined)),
         iconTheme: IconThemeData(
           color: Theme.of(context).iconTheme.color,
         ),

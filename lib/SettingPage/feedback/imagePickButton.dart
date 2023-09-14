@@ -7,6 +7,8 @@ import '../../util/config.dart';
 
 
 class MyWidget extends StatefulWidget {
+  const MyWidget({super.key});
+
   @override
   _MyWidgetState createState() => _MyWidgetState();
 }
@@ -114,6 +116,7 @@ class ImagePickerButton extends StatefulWidget {
 }
 
 class _ImagePickerButtonState extends State<ImagePickerButton> {
+
   Future getImage() async {
     final picker = ImagePicker();
     final pickedFile =

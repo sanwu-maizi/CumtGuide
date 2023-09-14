@@ -23,12 +23,18 @@ class _SearchResult extends State<SearchResult> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).cardTheme.color,
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
+        elevation: 0.3,
+        leading: InkWell(
+          onTap: (){
+            Navigator.pop(context);
+          },
+            child: const Icon(Icons.arrow_back_ios_new_outlined)),
         iconTheme: IconThemeData(
           color: Theme.of(context).iconTheme.color,
         ),
-        title: Text('搜索结'),
+        title: const Text('搜索结果'),
       ),
       body: FutureBuilder<SearchEntity?>(
           future: futureBuild,
@@ -47,16 +53,8 @@ class _SearchResult extends State<SearchResult> {
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.grey[200], // 背景颜色
+                        color: Theme.of(context).colorScheme.primary, // 背景颜色
                         borderRadius: BorderRadius.circular(10.0), // 圆角
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(1), // 阴影颜色
-                            spreadRadius: 1,
-                            blurRadius: 4,
-                            offset: Offset(3, 3), // 阴影偏移
-                          ),
-                        ],
                       ),
                       margin: EdgeInsets.symmetric(vertical: 7.0, horizontal: 13.0),
                       padding: EdgeInsets.fromLTRB(15.0,5.0,5.0,5.0),
@@ -85,10 +83,8 @@ class _SearchResult extends State<SearchResult> {
                   );
                 },
               );
-
             }else{
-              return Container(height:MediaQuery.of(context).size.height * 0.75,
-                  color: Colors.white
+              return Container(
               );
             }
           })

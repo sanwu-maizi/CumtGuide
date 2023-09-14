@@ -5,6 +5,9 @@ import 'package:cumt_guide/SettingPage/button/history/history_provider.dart';
 import 'package:cumt_guide/SettingPage/button/like_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_debouncer/flutter_debouncer.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
+
 
 import 'dio/ConcretePage/content_entity.dart';
 import 'dio/ConcretePage/content_model.dart';
@@ -24,6 +27,7 @@ class _NextPageState extends State<NextPage> with AutomaticKeepAliveClientMixin{
   bool flag2 = true;
   var _futureBuilderFuture;
 
+  final Debouncer _debouncer = Debouncer();
 
   @override
   bool get wantKeepAlive => true;
@@ -49,28 +53,26 @@ class _NextPageState extends State<NextPage> with AutomaticKeepAliveClientMixin{
   }
 
   void _onNewsSelected(BuildContext context, ContentEntity news) {
-    // Add the selected news to the history
-    // 使用Provider.of获取FavoriteProvider实例
     final favoriteProvider = Provider.of<FavoriteProvider>(context, listen: false);
-
-    // 添加到收藏列表
     favoriteProvider.addToFavorites(news);
-
   }
+
   @override
   Widget build(BuildContext context) {
-    LikeProvider likeProvider = Provider.of<LikeProvider>(context);
-    FavoriteProvider favoriteProvider=Provider.of<FavoriteProvider>(context);
     return FutureBuilder<ContentEntity?>(
         key: UniqueKey(),
+        initialData: null,
         future: _futureBuilderFuture,
         builder: (BuildContext context, AsyncSnapshot<ContentEntity?> snapshot) {
-          if (snapshot.hasData) {
+           if (snapshot.hasData) {
+            FavoriteProvider favoriteProvider=Provider.of<FavoriteProvider>(context);
             favoriteProvider.check(snapshot.data!);
-            Provider.of<HistoryProvider>(context, listen: false).addToHistory(snapshot.data!);
+            Provider.of<HistoryProvider>(context, listen: false).addHistory(snapshot.data!);
             return Scaffold(
-                backgroundColor: Theme.of(context).cardTheme.color,
+                backgroundColor: Theme.of(context).backgroundColor,
                 appBar: AppBar(
+                  elevation: 0.3,
+                  backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
                   iconTheme: IconThemeData(
                     color: Theme.of(context).iconTheme.color,
                   ),
@@ -83,12 +85,23 @@ class _NextPageState extends State<NextPage> with AutomaticKeepAliveClientMixin{
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
+                              backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height*0.012), // 设置四个角的圆角半径为 10.0
+                              ),
                               content: SingleChildScrollView( // 使用SingleChildScrollView包裹内容
                                 child: Container(
+                                  color: Theme.of(context).colorScheme.primary,
                                   child: Column(
                                     children: [
-                                      const Text(
-                                        '功能尚未开放，若你需要使用这个功能，请联系我们!\nヾ(❀╹◡╹)ﾉﾞ❀~\n(也可以留下您的联系方式，方便我们及时联络您)',
+                                      Padding(
+                                        padding:EdgeInsets.all(MediaQuery.of(context).size.height*0.008),
+                                        child: Text(
+                                          '功能尚未开放，若你需要使用这个功能，请联系我们!\nヾ(❀╹◡╹)ﾉﾞ❀~\n(也可以留下您的联系方式，方便我们及时联络您)',
+                                          style: TextStyle(
+                                              color: Theme.of(context).textTheme.headline1!.color
+                                          ),
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -96,13 +109,23 @@ class _NextPageState extends State<NextPage> with AutomaticKeepAliveClientMixin{
                               ),
                               actions: [
                                 TextButton(
-                                  child: const Text('取消'),
+                                  style: TextButton.styleFrom(
+                                    backgroundColor: Theme.of(context).dialogTheme.backgroundColor, // 设置按钮的背景颜色为蓝色
+                                  ),
+                                  child: Text('取消',style: TextStyle(
+                                      color: Theme.of(context).textTheme.headline1!.color
+                                  ),),
                                   onPressed: () {
                                     Navigator.of(context).pop();
                                   },
                                 ),
                                 TextButton(
-                                  child: const Text('确定'),
+                                  style: TextButton.styleFrom(
+                                    backgroundColor: Theme.of(context).dialogTheme.backgroundColor, // 设置按钮的背景颜色为蓝色
+                                  ),
+                                  child: Text('确定',style: TextStyle(
+                                      color: Theme.of(context).textTheme.headline1!.color
+                                  )),
                                   onPressed: () {
                                     // 执行确定操作
                                     Navigator.of(context).pop();
@@ -174,7 +197,8 @@ class _NextPageState extends State<NextPage> with AutomaticKeepAliveClientMixin{
                                       MediaQuery.of(context).size.height *
                                           0.02,
                                     ),
-                                    child: Text(snapshot.data!.data!.content!))
+                                    child: MarkdownBody(data: snapshot.data!.data!.content!)
+                                )
                               ]),
                             )
                           ],
@@ -185,58 +209,66 @@ class _NextPageState extends State<NextPage> with AutomaticKeepAliveClientMixin{
                 ),
                 bottomNavigationBar: Container(
                     height: MediaQuery.of(context).size.height * 0.08,
-                    color: Theme.of(context).cardTheme.color,
+                    color: Theme.of(context).appBarTheme.backgroundColor,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        InkWell(
-                          onTap: () {
-                            if (likeProvider.isLiked) {
-                              likeProvider.unlike();
-                            } else {
-                              likeProvider.like();
-                            }
-                          },
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.thumb_up_alt_outlined,
-                                color: likeProvider.isLiked ? Colors.blue : Colors.white,
+                        Consumer<LikeProvider>(
+                          builder: (context, likeProvider, child) {
+                            return InkWell(
+                              onTap: () {
+                                if (likeProvider.isLiked) {
+                                  likeProvider.unlike();
+                                } else {
+                                  likeProvider.like();
+                                }
+                              },
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.thumb_up_alt_outlined,
+                                    color: likeProvider.isLiked ? Colors.blue : Theme.of(context).iconTheme.color,
+                                  ),
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width * 0.014,
+                                  ),
+                                  Text(snapshot.data!.data!.likes!.toString())
+                                ],
                               ),
-                              SizedBox(
-                                  width:
-                                  MediaQuery.of(context).size.width * 0.014),
-                              Text(snapshot.data!.data!.likes!.toString())
-                            ],
-                          ),
+                            );
+                          },
                         ),
                         SizedBox(
                             width: MediaQuery.of(context).size.width * 0.032),
-                        InkWell(
-                          onTap: () {
-                            if (favoriteProvider.isLiked) {
-                              favoriteProvider.unlike();
-                            } else {
-                              favoriteProvider.like();
-                            }
-                            if(favoriteProvider.isLiked){
-                              _onNewsSelected(context, snapshot.data!);
-                            }else{
-                              _onNewsDeselected(context, snapshot.data!);
-                            }
-                          },
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.star_border,
-                                color: favoriteProvider.isLiked ? Colors.blue : Colors.white,
+                        Consumer<FavoriteProvider>(
+                          builder: (context, favoriteProvider, child) {
+                            return InkWell(
+                              onTap: () {
+                                if (favoriteProvider.isLiked) {
+                                  favoriteProvider.unlike();
+                                } else {
+                                  favoriteProvider.like();
+                                }
+                                if (favoriteProvider.isLiked) {
+                                  _onNewsSelected(context, snapshot.data!);
+                                } else {
+                                  _onNewsDeselected(context, snapshot.data!);
+                                }
+                              },
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.star_border,
+                                    color: favoriteProvider.isLiked ? Colors.blue : Theme.of(context).iconTheme.color,
+                                  ),
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width * 0.01,
+                                  ),
+                                  Text(snapshot.data!.data!.likes!.toString())
+                                ],
                               ),
-                              SizedBox(
-                                  width:
-                                  MediaQuery.of(context).size.width * 0.01),
-                              Text(snapshot.data!.data!.likes!.toString())
-                            ],
-                          ),
+                            );
+                          },
                         ),
                         SizedBox(
                             width: MediaQuery.of(context).size.width * 0.032),
@@ -246,7 +278,83 @@ class _NextPageState extends State<NextPage> with AutomaticKeepAliveClientMixin{
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     FloatingActionButton(
-                      backgroundColor: Theme.of(context).canvasColor,
+                      backgroundColor: Theme.of(context).floatingActionButtonTheme.backgroundColor,
+                      heroTag: "btn1",
+                      onPressed: () {
+                        _debouncer.debounce(const Duration(milliseconds: 500),(){
+                          _controller.animateTo(
+                            0,
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.easeInOut,
+                          );
+                        });
+                      },
+                      shape: const CircleBorder(),
+                      child: const Icon(Icons.arrow_upward),
+                    )
+                  ],
+                )
+            );
+          } else {
+            return Scaffold(
+                backgroundColor: Theme.of(context).backgroundColor,
+                appBar: AppBar(
+                  elevation: 0.3,
+                  backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+                  iconTheme: IconThemeData(
+                    color: Theme.of(context).iconTheme.color,
+                  ),
+                  actions: [
+                    IconButton(
+                      icon: const Icon(Icons.share),
+                      color: Theme.of(context).iconTheme.color,
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              content: SingleChildScrollView( // 使用SingleChildScrollView包裹内容
+                                child: Container(
+                                  child: const Column(
+                                    children: [
+                                      Text(
+                                        '功能尚未开放，若你需要使用这个功能，请联系我们!\nヾ(❀╹◡╹)ﾉﾞ❀~\n(也可以留下您的联系方式，方便我们及时联络您)',
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              actions: [
+                                TextButton(
+                                  child: const Text('取消'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                TextButton(
+                                  child: const Text('确定'),
+                                  onPressed: () {
+                                    // 执行确定操作
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ],
+                ),
+                body: Center(
+                  child: Image.asset("assets/1.gif"),
+                ),
+                floatingActionButton: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    FloatingActionButton(
+                      foregroundColor: Theme.of(context).floatingActionButtonTheme.foregroundColor,
+                      backgroundColor: Theme.of(context).floatingActionButtonTheme.backgroundColor,
                       heroTag: "btn1",
                       onPressed: () {
                         _controller.animateTo(
@@ -256,135 +364,10 @@ class _NextPageState extends State<NextPage> with AutomaticKeepAliveClientMixin{
                         );
                       },
                       shape: const CircleBorder(),
-                      child: const Icon(Icons.arrow_upward),
-                    ),
-                    FloatingActionButton(
-                      heroTag: "btn2",
-                      backgroundColor: Theme.of(context).canvasColor,
-                      onPressed: () {
-                        toFavoritePage(context);
-                      },
-                      shape: const CircleBorder(),
-                      child: const Icon(Icons.star_border),
-                    ),
-                    FloatingActionButton(
-                      heroTag: "btn3",
-                      backgroundColor: Theme.of(context).canvasColor,
-                      onPressed: () {
-                        toHistoryPage(context);
-                      },
-                      shape: const CircleBorder(),
-                      child: const Icon(Icons.history),
-                    ),
+                      child: Icon(Icons.arrow_upward),
+                    )
                   ],
                 )
-            );
-          } else {
-            return Scaffold(
-              appBar: AppBar(
-                backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-                actions: [
-                  IconButton(
-                    icon: const Icon(Icons.share),
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            content: Container(
-                                height:
-                                MediaQuery.of(context).size.height * 0.13,
-                                child: Column(children: [
-                                  SizedBox(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.01,
-                                  ),
-                                  const Text(
-                                      '功能尚未开放，若你需要使用这个功能，请联系我们!\nヾ(❀╹◡╹)ﾉﾞ❀~\n(也可以留下您的联系方式，方便我们及时联络您)')
-                                ])),
-                            actions: [
-                              TextButton(
-                                child: const Text('取消'),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                              TextButton(
-                                child: const Text('确定'),
-                                onPressed: () {
-                                  // 执行确定操作
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
-                  ),
-                ],
-              ),
-              body: const Text(" "),
-              bottomNavigationBar: Container(
-                  height: MediaQuery.of(context).size.height * 0.08,
-                  color: Theme.of(context).colorScheme.inversePrimary,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      InkWell(
-                        onTap: () {
-
-                        },
-                        child: Row(
-                          children: [
-                            Icon(
-                                Icons.thumb_up_alt_outlined,
-                                color: Colors.white
-                            ),
-                            SizedBox(
-                                width:
-                                MediaQuery.of(context).size.width * 0.014),
-                            Text("999")
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.032),
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            flag2 = !flag2;
-                          });
-                        },
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.star_border,
-                              color: flag2 ? Colors.white : Colors.blue,
-                            ),
-                            SizedBox(
-                                width:
-                                MediaQuery.of(context).size.width * 0.01),
-                            Text("999")
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.032),
-                    ],
-                  )),
-              floatingActionButton: FloatingActionButton(
-                onPressed: () {
-                  _controller.animateTo(
-                    0,
-                    duration: const Duration(milliseconds: 500),
-                    curve: Curves.easeInOut,
-                  );
-                },
-                shape: const CircleBorder(),
-                backgroundColor: Theme.of(context).canvasColor,
-                child: const Icon(Icons.arrow_upward),
-              ),
             );
           }
         });

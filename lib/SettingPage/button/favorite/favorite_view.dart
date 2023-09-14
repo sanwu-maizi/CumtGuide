@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
 
 import '../../../dio/ConcretePage/content_entity.dart';
@@ -53,8 +54,10 @@ class _FavoriteViewState extends State<FavoriteView> {
     LikeProvider likeProvider = Provider.of<LikeProvider>(context);
     FavoriteProvider favoriteProvider = Provider.of<FavoriteProvider>(context);
     return Scaffold(
-        backgroundColor: Theme.of(context).cardTheme.color,
+        backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
+          elevation: 0.3,
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
           iconTheme: IconThemeData(
             color: Theme.of(context).iconTheme.color,
           ),
@@ -66,24 +69,47 @@ class _FavoriteViewState extends State<FavoriteView> {
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      content: Container(
-                          height: MediaQuery.of(context).size.height * 0.14,
-                          child: Column(children: [
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.01,
-                            ),
-                            const Text(
-                                '功能尚未开放，若你需要使用这个功能，请联系我们!\nヾ(❀╹◡╹)ﾉﾞ❀~\n(也可以留下您的联系方式，方便我们及时联络您)')
-                          ])),
+                      backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height*0.012), // 设置四个角的圆角半径为 10.0
+                      ),
+                      content: SingleChildScrollView( // 使用SingleChildScrollView包裹内容
+                        child: Container(
+                          color: Theme.of(context).colorScheme.primary,
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding:EdgeInsets.all(MediaQuery.of(context).size.height*0.008),
+                                child: Text(
+                                  '功能尚未开放，若你需要使用这个功能，请联系我们!\nヾ(❀╹◡╹)ﾉﾞ❀~\n(也可以留下您的联系方式，方便我们及时联络您)',
+                                  style: TextStyle(
+                                      color: Theme.of(context).textTheme.headline1!.color
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                       actions: [
                         TextButton(
-                          child: const Text('取消'),
+                          style: TextButton.styleFrom(
+                            backgroundColor: Theme.of(context).dialogTheme.backgroundColor, // 设置按钮的背景颜色为蓝色
+                          ),
+                          child: Text('取消',style: TextStyle(
+                              color: Theme.of(context).textTheme.headline1!.color
+                          ),),
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
                         ),
                         TextButton(
-                          child: const Text('确定'),
+                          style: TextButton.styleFrom(
+                            backgroundColor: Theme.of(context).dialogTheme.backgroundColor, // 设置按钮的背景颜色为蓝色
+                          ),
+                          child: Text('确定',style: TextStyle(
+                              color: Theme.of(context).textTheme.headline1!.color
+                          )),
                           onPressed: () {
                             // 执行确定操作
                             Navigator.of(context).pop();
@@ -145,7 +171,7 @@ class _FavoriteViewState extends State<FavoriteView> {
                               vertical:
                                   MediaQuery.of(context).size.height * 0.02,
                             ),
-                            child: Text(widget.news.data!.content!))
+                            child: MarkdownBody(data: widget.news.data!.content!))
                       ]),
                     )
                   ],
@@ -156,7 +182,7 @@ class _FavoriteViewState extends State<FavoriteView> {
         ),
         bottomNavigationBar: Container(
             height: MediaQuery.of(context).size.height * 0.08,
-            color: Theme.of(context).colorScheme.inversePrimary,
+            color: Theme.of(context).appBarTheme.backgroundColor,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -173,7 +199,7 @@ class _FavoriteViewState extends State<FavoriteView> {
                       Icon(
                         Icons.thumb_up_alt_outlined,
                         color:
-                            likeProvider.isLiked ? Colors.blue : Colors.white,
+                            likeProvider.isLiked ? Colors.blue : Theme.of(context).iconTheme.color,
                       ),
                       SizedBox(
                           width: MediaQuery.of(context).size.width * 0.014),
@@ -201,7 +227,7 @@ class _FavoriteViewState extends State<FavoriteView> {
                         Icons.star_border,
                         color: favoriteProvider.isLiked
                             ? Colors.blue
-                            : Colors.white,
+                            : Theme.of(context).iconTheme.color,
                       ),
                       SizedBox(width: MediaQuery.of(context).size.width * 0.01),
                       Text(widget.news.data!.likes!.toString())
@@ -213,7 +239,7 @@ class _FavoriteViewState extends State<FavoriteView> {
             )),
         floatingActionButton: FloatingActionButton(
           heroTag: "btn1",
-          backgroundColor: Theme.of(context).canvasColor,
+          backgroundColor: Theme.of(context).floatingActionButtonTheme.backgroundColor,
           onPressed: () {
             _controller.animateTo(
               0,

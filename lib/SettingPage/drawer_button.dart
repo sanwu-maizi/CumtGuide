@@ -36,11 +36,13 @@ class _AboutButtonState extends State<AboutButton> {
                 children: [
                   Expanded(
                     child: Text("关于我们",
-                        style: TextStyle(fontSize: UIConfig.fontSizeMain)),
+                        style: TextStyle(fontSize: UIConfig.fontSizeMain,
+                        color: Theme.of(context).textTheme.headline1!.color)),
                   ),
                   Icon(
                     Icons.keyboard_arrow_right_rounded,
                     size: UIConfig.fontSizeMin * 2,
+                    color: Theme.of(context).textTheme.headline1!.color,
                   ),
                 ],
               )),
@@ -189,7 +191,8 @@ class _UpdatecheckButtonState extends State<UpdatecheckButton> {
                 children: [
                   Expanded(
                     child: Text("软件更新",
-                        style: TextStyle(fontSize: UIConfig.fontSizeMain)),
+                        style: TextStyle(fontSize: UIConfig.fontSizeMain,
+                        color: Theme.of(context).textTheme.headline1!.color)),
                   ),
                   // if (Update.isIgnore == true && Update.isUpDate == true)
                   //   Expanded(
@@ -198,6 +201,7 @@ class _UpdatecheckButtonState extends State<UpdatecheckButton> {
                   Icon(
                     Icons.keyboard_arrow_right_rounded,
                     size: UIConfig.fontSizeMin * 2,
+                    color: Theme.of(context).textTheme.headline1!.color,
                   ),
                 ],
               )),
@@ -227,11 +231,13 @@ class _FeedBackButtonState extends State<FeedBackButton> {
                 children: [
                   Expanded(
                     child: Text("反馈与建议",
-                        style: TextStyle(fontSize: UIConfig.fontSizeMain)),
+                        style: TextStyle(fontSize: UIConfig.fontSizeMain,
+                        color: Theme.of(context).textTheme.headline1!.color)),
                   ),
                   Icon(
                     Icons.keyboard_arrow_right_rounded,
                     size: UIConfig.fontSizeMin * 2,
+                    color: Theme.of(context).textTheme.headline1!.color,
                   ),
                 ],
               )),
@@ -292,7 +298,7 @@ class _ShareAppState extends State<ShareApp> {
     return InkWell(
         onTap: () {
           shareTextToWechatAndQQ(
-              '欢迎使用校园网自动登录app，安卓下载地址：https://wwya.lanzoub.com/iV0ij11iwyda，window下载地址：https://wwya.lanzoub.com/ipiXI11ip0vc');
+              '欢迎使用信息平台app，安卓下载地址：https://wwya.lanzoub.com/iV0ij11iwyda，window下载地址：https://wwya.lanzoub.com/ipiXI11ip0vc');
         },
         child: SizedBox(
           //height: MediaQuery.of(context).size.height*0.045,
@@ -302,11 +308,14 @@ class _ShareAppState extends State<ShareApp> {
                 children: [
                   Expanded(
                     child: Text("分享App",
-                        style: TextStyle(fontSize: UIConfig.fontSizeMain)),
+                        style: TextStyle(fontSize: UIConfig.fontSizeMain,
+                          color: Theme.of(context).textTheme.headline1!.color
+                        )),
                   ),
                   Icon(
                     Icons.keyboard_arrow_right_rounded,
                     size: UIConfig.fontSizeMin * 2,
+                    color: Theme.of(context).textTheme.headline1!.color,
                   ),
                 ],
               )),
@@ -371,11 +380,13 @@ class _FavoriteButtonState extends State<FavoriteButton> {
                 children: [
                   Expanded(
                     child: Text("我的收藏",
-                        style: TextStyle(fontSize: UIConfig.fontSizeMain)),
+                        style: TextStyle(fontSize: UIConfig.fontSizeMain,
+                        color: Theme.of(context).textTheme.headline1!.color)),
                   ),
                   Icon(
                     Icons.keyboard_arrow_right_rounded,
                     size: UIConfig.fontSizeMin * 2,
+                    color: Theme.of(context).textTheme.headline1!.color,
                   ),
                 ],
               )),
@@ -405,11 +416,13 @@ class _HistoryButtonState extends State<HistoryButton> {
                 children: [
                   Expanded(
                     child: Text("历史浏览",
-                        style: TextStyle(fontSize: UIConfig.fontSizeMain)),
+                        style: TextStyle(fontSize: UIConfig.fontSizeMain,
+                        color: Theme.of(context).textTheme.headline1!.color)),
                   ),
                   Icon(
                     Icons.keyboard_arrow_right_rounded,
                     size: UIConfig.fontSizeMin * 2,
+                    color: Theme.of(context).textTheme.headline1!.color,
                   ),
                 ],
               )),

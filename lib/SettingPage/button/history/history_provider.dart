@@ -19,7 +19,7 @@ class HistoryProvider with ChangeNotifier {
     }
   }
 
-  Future<void> addToHistory(ContentEntity content) async {
+  Future<void> addHistory(ContentEntity content) async {
     bool flag = true;
     for (int i = 0; i < _history.length; i++) {
       if (_history[i].data!.id == content.data!.id &&
