@@ -70,27 +70,27 @@ class _SettingPageState extends State<SettingPage> {
                     children: [
                       Row(
                         children: [
-                          if (_imageFile == null)
+                          // if (_imageFile == null)
                             CircleAvatar(
                               radius: MediaQuery.of(context).size.width *
                                   0.21 *
                                   0.8,
                               backgroundImage: const AssetImage('assets/2.jpg'),
-                            )
-                          else
-                            Container(
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                              ),
                             ),
-                            CircleAvatar(
-                              radius: MediaQuery.of(context).size.width *
-                                  0.21 *
-                                  0.8,
-                              child: PhotoView(
-                                imageProvider: FileImage(_imageFile!),
-                              ),
-                            ),
+                          // else
+                            // Container(
+                            //   decoration: BoxDecoration(
+                            //     shape: BoxShape.circle,
+                            //   ),
+                            // ),
+                            // CircleAvatar(
+                            //   radius: MediaQuery.of(context).size.width *
+                            //       0.21 *
+                            //       0.8,
+                            //   child: PhotoView(
+                            //     imageProvider: FileImage(_imageFile!),
+                            //   ),
+                            // ),
                           Text(Prefs.cumtLoginUsername,
                               style: TextStyle(
                                 color: Theme.of(context)
@@ -151,38 +151,38 @@ class _SettingPageState extends State<SettingPage> {
                                         InputDecoration(hintText: '用户名'),
                                   ),
                                   SizedBox(height: 16),
-                                  ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Theme.of(context)
-                                          .dialogTheme
-                                          .backgroundColor,
-                                      textStyle: TextStyle(
-                                          fontSize: UIConfig
-                                              .fontAlertText), // 调整按钮字体大小
-                                    ),
-                                    child: Text(
-                                      '选择头像',
-                                      style: TextStyle(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .headline1!
-                                              .color),
-                                    ),
-                                    onPressed: () async {
-                                      final picker = ImagePicker();
-                                      final pickedFile = await picker.pickImage(
-                                          source: ImageSource.gallery);
-                                      if (pickedFile != null) {
-                                        final newImagePath = pickedFile.path;
-                                        // 保存新的本地路径到Prefs
-                                        Prefs.avatarImagePath = newImagePath;
-                                        setState(() {
-                                          // 更新头像显示
-                                          avatarImagePath = newImagePath;
-                                        });
-                                      }
-                                    },
-                                  ),
+                                  // ElevatedButton(
+                                  //   style: ElevatedButton.styleFrom(
+                                  //     backgroundColor: Theme.of(context)
+                                  //         .dialogTheme
+                                  //         .backgroundColor,
+                                  //     textStyle: TextStyle(
+                                  //         fontSize: UIConfig
+                                  //             .fontAlertText), // 调整按钮字体大小
+                                  //   ),
+                                  //   child: Text(
+                                  //     '选择头像',
+                                  //     style: TextStyle(
+                                  //         color: Theme.of(context)
+                                  //             .textTheme
+                                  //             .headline1!
+                                  //             .color),
+                                  //   ),
+                                  //   onPressed: () async {
+                                  //     final picker = ImagePicker();
+                                  //     final pickedFile = await picker.pickImage(
+                                  //         source: ImageSource.gallery);
+                                  //     if (pickedFile != null) {
+                                  //       final newImagePath = pickedFile.path;
+                                  //       // 保存新的本地路径到Prefs
+                                  //       Prefs.avatarImagePath = newImagePath;
+                                  //       setState(() {
+                                  //         // 更新头像显示
+                                  //         avatarImagePath = newImagePath;
+                                  //       });
+                                  //     }
+                                  //   },
+                                  // ),
                                   const SizedBox(height: 16),
                                   ElevatedButton(
                                     style: ElevatedButton.styleFrom(
