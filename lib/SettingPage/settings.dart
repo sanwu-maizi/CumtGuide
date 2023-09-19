@@ -40,7 +40,11 @@ class _SettingPageState extends State<SettingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+<<<<<<< Updated upstream
       backgroundColor: Theme.of(context).cardTheme.color,
+=======
+      backgroundColor: Theme.of(context).colorScheme.background,
+>>>>>>> Stashed changes
       body: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -55,11 +59,34 @@ class _SettingPageState extends State<SettingPage> {
                     children: [
                       Row(
                         children: [
+<<<<<<< Updated upstream
                           CircleAvatar(
                             radius:
                                 MediaQuery.of(context).size.width * 0.21 * 0.8,
                             backgroundImage: AssetImage("assets/2.jpg"),
                           ),
+=======
+                          // if (_imageFile == null)
+                          CircleAvatar(
+                            radius:
+                                MediaQuery.of(context).size.width * 0.21 * 0.8,
+                            backgroundImage: const AssetImage('assets/2.jpg'),
+                          ),
+                          // else
+                          // Container(
+                          //   decoration: BoxDecoration(
+                          //     shape: BoxShape.circle,
+                          //   ),
+                          // ),
+                          // CircleAvatar(
+                          //   radius: MediaQuery.of(context).size.width *
+                          //       0.21 *
+                          //       0.8,
+                          //   child: PhotoView(
+                          //     imageProvider: FileImage(_imageFile!),
+                          //   ),
+                          // ),
+>>>>>>> Stashed changes
                           Text(Prefs.cumtLoginUsername,
                               style: TextStyle(
                                 fontSize: UIConfig.fontSizeUsername,
@@ -150,8 +177,14 @@ class _SettingPageState extends State<SettingPage> {
           Expanded(
             flex: 4,
             child: Padding(
+<<<<<<< Updated upstream
               padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width *0.04),
               child:
+=======
+              padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width * 0.06),
+              child: Column(children: [
+>>>>>>> Stashed changes
                 Flex(
                   direction: Axis.vertical,
                   children: [
@@ -160,7 +193,11 @@ class _SettingPageState extends State<SettingPage> {
                       decoration: BoxDecoration(
                           borderRadius:
                               BorderRadius.circular(UIConfig.borderRadiusEntry),
+<<<<<<< Updated upstream
                           color: Theme.of(context).colorScheme.primary),
+=======
+                          color: Theme.of(context).colorScheme.secondary),
+>>>>>>> Stashed changes
                       child: Column(
                         children: const [
                           FavoriteButton(),
@@ -169,10 +206,48 @@ class _SettingPageState extends State<SettingPage> {
                             thickness: 1,
                           ),
                           HistoryButton(),
+<<<<<<< Updated upstream
                           Divider(
                             color: Colors.black12,
                             thickness: 1,
                           ),
+                          FeedBackButton(),
+                          Divider(
+                            color: Colors.black12,
+                            thickness: 1,
+                          ),
+                          ShareApp(),
+                          Divider(
+                            color: Colors.black12,
+                            thickness: 1,
+                          ),
+                          AboutButton(),
+                          Divider(
+                            color: Colors.black12,
+                            thickness: 1,
+                          ),
+                          UpdatecheckButton(),
+=======
+>>>>>>> Stashed changes
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+<<<<<<< Updated upstream
+=======
+                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                Flex(
+                  direction: Axis.vertical,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(UIConfig.paddingAll),
+                      decoration: BoxDecoration(
+                          borderRadius:
+                              BorderRadius.circular(UIConfig.borderRadiusEntry),
+                          color: Theme.of(context).colorScheme.secondary),
+                      child: Column(
+                        children: const [
                           FeedBackButton(),
                           Divider(
                             color: Colors.black12,
@@ -194,6 +269,8 @@ class _SettingPageState extends State<SettingPage> {
                     ),
                   ],
                 ),
+              ]),
+>>>>>>> Stashed changes
             ),
           ),
           Spacer(),

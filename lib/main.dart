@@ -10,6 +10,7 @@ import 'package:cumt_guide/SettingPage/settings.dart';
 import 'package:cumt_guide/theme/theme_color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+<<<<<<< Updated upstream
 import 'package:cumt_guide/HomePage/component/button_index.dart';
 import 'package:cumt_guide/HomePage/component/articleListInkwell.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,6 +20,15 @@ import 'package:cumt_guide/dio/search/search_page.dart';
 
 
 import 'DynamicsPage/dynamicsPage.dart';
+=======
+import 'package:cumt_guide/GuidePage/component/button_index.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:cumt_guide/dio/Articletype/Articletype_model.dart';
+import 'DynamicsPage/dynamicsPage.dart';
+import 'GuidePage/component/articleListInkwell.dart';
+import 'GuidePage/guidePage.dart';
+>>>>>>> Stashed changes
 import 'dio/Articletype/Articletype_entity.dart';
 import 'dio/search/search_dio.dart';
 import 'dio/search/search_entity.dart';
@@ -63,7 +73,7 @@ class MyApp extends StatelessWidget {
           home: child,
         );
       },
-      child:  const MyHomePage(),
+      child: const MyHomePage(),
     );
   }
 }
@@ -83,6 +93,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+<<<<<<< Updated upstream
 
   List<String> items = [
     '教务信息',
@@ -99,9 +110,20 @@ class _MyHomePageState extends State<MyHomePage> {
   String  s="http://ekkosblog.online:9999/types";
 
   var _futureBuilder,_futureBuilder2;
+=======
+>>>>>>> Stashed changes
 
-  void _fetchData(String query, String type) {
+  int _selectedIndex = 0; // 用于管理底部导航栏的选中项索引
+
+  static List<Widget> _widgetOptions = <Widget>[
+    GuidePage(), // 指南页面
+    DynamicsPage(), // 动态页面（自行创建）
+  ];
+
+  // 底部导航栏切换页面的回调函数
+  void _onItemTapped(int index) {
     setState(() {
+<<<<<<< Updated upstream
       print("Fetching data with query: $query, type: $type");
       _futureBuilder2 = _model2.getData(query: query, type: type);
       print("FutureBuilder2 data: $_futureBuilder2"); // Add this line to print the data
@@ -110,8 +132,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final search_Model _model2=search_Model();
   final DioModel _model=DioModel();
+=======
+      _selectedIndex = index;
+    });
+  }
+
+>>>>>>> Stashed changes
   @override
-  void initState(){
+  void initState() {
     super.initState();
 
     Update.checkNeedUpdate(context, auto: true).then((_) {
@@ -124,6 +152,7 @@ class _MyHomePageState extends State<MyHomePage> {
       }
     });
 
+<<<<<<< Updated upstream
 
     _futureBuilder=_model.getData(s);
     _futureBuilder.then((DioEntity? entity) {
@@ -131,6 +160,8 @@ class _MyHomePageState extends State<MyHomePage> {
         _fetchData(entity.data![0].id!, "2"); // Use the id value of the first item
       }
     });
+=======
+>>>>>>> Stashed changes
   }
 
   @override
@@ -138,6 +169,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       // bottomNavigationBar: buildBottomNavigationBar(),
       resizeToAvoidBottomInset: false,
+<<<<<<< Updated upstream
       backgroundColor: Theme.of(context).cardTheme.color,
       body: Column(
         children: [
@@ -345,8 +377,24 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
             ),
+=======
+      backgroundColor: Theme.of(context).backgroundColor,
+      body: _widgetOptions.elementAt(_selectedIndex), // 根据选中项显示不同页面
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.star),
+            label: '指南',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.refresh),
+            label: '动态',
+>>>>>>> Stashed changes
           ),
         ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.blue, // 选中项颜色
+        onTap: _onItemTapped, // 设置底部导航栏点击事件
       ),
     );
   }

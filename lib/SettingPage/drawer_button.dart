@@ -22,12 +22,10 @@ class AboutButton extends StatefulWidget {
 }
 
 class _AboutButtonState extends State<AboutButton> {
-
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        onTap: () {
-        },
+        onTap: () {},
         child: SizedBox(
           //height: MediaQuery.of(context).size.height*0.045,
           child: Padding(
@@ -36,7 +34,15 @@ class _AboutButtonState extends State<AboutButton> {
                 children: [
                   Expanded(
                     child: Text("关于我们",
+<<<<<<< Updated upstream
                         style: TextStyle(fontSize: UIConfig.fontSizeMain)),
+=======
+                        style: TextStyle(
+                            fontSize: UIConfig.fontSizeMain,
+                            fontWeight: FontWeight.bold,
+                            color:
+                                Theme.of(context).textTheme.headline1!.color)),
+>>>>>>> Stashed changes
                   ),
                   Icon(
                     Icons.keyboard_arrow_right_rounded,
@@ -56,14 +62,13 @@ class ThemeChange extends StatefulWidget {
 }
 
 class _ThemeChangeState extends State<ThemeChange> {
-
   void initState() {
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    var brightness = Theme.of(context).brightness==Brightness.dark;
+    var brightness = Theme.of(context).brightness == Brightness.dark;
     return SizedBox(
       //height: MediaQuery.of(context).size.height*0.045,
       child: Padding(
@@ -189,7 +194,15 @@ class _UpdatecheckButtonState extends State<UpdatecheckButton> {
                 children: [
                   Expanded(
                     child: Text("软件更新",
+<<<<<<< Updated upstream
                         style: TextStyle(fontSize: UIConfig.fontSizeMain)),
+=======
+                        style: TextStyle(
+                            fontSize: UIConfig.fontSizeMain,
+                            fontWeight: FontWeight.bold,
+                            color:
+                                Theme.of(context).textTheme.headline1!.color)),
+>>>>>>> Stashed changes
                   ),
                   // if (Update.isIgnore == true && Update.isUpDate == true)
                   //   Expanded(
@@ -217,7 +230,7 @@ class _FeedBackButtonState extends State<FeedBackButton> {
   Widget build(BuildContext context) {
     return InkWell(
         onTap: () {
-            toFeedBackPage(context);
+          toFeedBackPage(context);
         },
         child: SizedBox(
           //height: MediaQuery.of(context).size.height*0.045,
@@ -227,7 +240,15 @@ class _FeedBackButtonState extends State<FeedBackButton> {
                 children: [
                   Expanded(
                     child: Text("反馈与建议",
+<<<<<<< Updated upstream
                         style: TextStyle(fontSize: UIConfig.fontSizeMain)),
+=======
+                        style: TextStyle(
+                            fontSize: UIConfig.fontSizeMain,
+                            fontWeight: FontWeight.bold,
+                            color:
+                                Theme.of(context).textTheme.headline1!.color)),
+>>>>>>> Stashed changes
                   ),
                   Icon(
                     Icons.keyboard_arrow_right_rounded,
@@ -240,7 +261,6 @@ class _FeedBackButtonState extends State<FeedBackButton> {
 }
 
 class HelpButton extends StatefulWidget {
-
   HelpButton({Key? key}) : super(key: key);
 
   @override
@@ -302,7 +322,15 @@ class _ShareAppState extends State<ShareApp> {
                 children: [
                   Expanded(
                     child: Text("分享App",
+<<<<<<< Updated upstream
                         style: TextStyle(fontSize: UIConfig.fontSizeMain)),
+=======
+                        style: TextStyle(
+                            fontSize: UIConfig.fontSizeMain,
+                            fontWeight: FontWeight.bold,
+                            color:
+                                Theme.of(context).textTheme.headline1!.color)),
+>>>>>>> Stashed changes
                   ),
                   Icon(
                     Icons.keyboard_arrow_right_rounded,
@@ -337,7 +365,10 @@ class _QQButtomState extends State<QQButtom> {
                 children: [
                   Expanded(
                     child: Text("加入内测交流群",
-                        style: TextStyle(fontSize: UIConfig.fontSizeMain)),
+                        style: TextStyle(
+                          fontSize: UIConfig.fontSizeMain,
+                          fontWeight: FontWeight.bold,
+                        )),
                   ),
                   Icon(
                     Icons.keyboard_arrow_right_rounded,
@@ -371,7 +402,15 @@ class _FavoriteButtonState extends State<FavoriteButton> {
                 children: [
                   Expanded(
                     child: Text("我的收藏",
+<<<<<<< Updated upstream
                         style: TextStyle(fontSize: UIConfig.fontSizeMain)),
+=======
+                        style: TextStyle(
+                            fontSize: UIConfig.fontSizeMain,
+                            fontWeight: FontWeight.bold,
+                            color:
+                                Theme.of(context).textTheme.headline1!.color)),
+>>>>>>> Stashed changes
                   ),
                   Icon(
                     Icons.keyboard_arrow_right_rounded,
@@ -405,7 +444,15 @@ class _HistoryButtonState extends State<HistoryButton> {
                 children: [
                   Expanded(
                     child: Text("历史浏览",
+<<<<<<< Updated upstream
                         style: TextStyle(fontSize: UIConfig.fontSizeMain)),
+=======
+                        style: TextStyle(
+                            fontSize: UIConfig.fontSizeMain,
+                            fontWeight: FontWeight.bold,
+                            color:
+                                Theme.of(context).textTheme.headline1!.color)),
+>>>>>>> Stashed changes
                   ),
                   Icon(
                     Icons.keyboard_arrow_right_rounded,

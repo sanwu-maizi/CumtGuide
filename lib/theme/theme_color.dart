@@ -13,8 +13,39 @@ class AppTheme {
           color: Colors.grey[700], // 更改Card的颜色
         ),
 
+<<<<<<< Updated upstream
         appBarTheme: const AppBarTheme(),
         textTheme: const TextTheme(),
+=======
+        dialogTheme: DialogTheme(
+          backgroundColor:
+              const Color.fromRGBO(38, 38, 38, 1), // 设置 AlertDialog 的背景颜色
+          titleTextStyle: TextStyle(color: Colors.white), // 设置标题文本的颜色
+          contentTextStyle: TextStyle(color: Colors.black), // 设置内容文本的颜色
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0), // 设置对话框的圆角
+          ),
+        ),
+
+        backgroundColor: Colors.black,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.black,
+        ),
+
+        textTheme: const TextTheme(
+          headline1: TextStyle(
+            color: Color.fromRGBO(255, 255, 255, 1), // 设置标题文本颜色为蓝色
+            fontWeight: FontWeight.bold, // 设置字体粗细
+          ),
+          headline2: TextStyle(
+            color: Colors.white,
+          ),
+          bodyText1: TextStyle(
+            color: Colors.white, // 设置正文文本颜色为黑色
+            fontSize: 16.0, // 设置字体大小
+          ),
+        ),
+>>>>>>> Stashed changes
 
         //更改snakbar颜色
         snackBarTheme: const SnackBarThemeData(
@@ -43,9 +74,21 @@ class AppTheme {
         )),
 
         iconButtonTheme: const IconButtonThemeData(
+<<<<<<< Updated upstream
             style: ButtonStyle(
           backgroundColor: MaterialStatePropertyAll(Colors.black26),
         )),
+=======
+          style: ButtonStyle(
+            backgroundColor: MaterialStatePropertyAll(Colors.black26),
+          ),
+        ),
+
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(
+          foregroundColor: Colors.white, // 设置图标颜色为白色
+          backgroundColor: Color.fromRGBO(38, 38, 38, 1), // 设置背景颜色
+        ),
+>>>>>>> Stashed changes
 
         textButtonTheme: const TextButtonThemeData(
             style: ButtonStyle(
@@ -64,11 +107,19 @@ class AppTheme {
           background: Colors.white60,
           brightness: Brightness.dark,
           onBackground: Colors.black38,
+<<<<<<< Updated upstream
           onError: Colors.white,
           onPrimary: Colors.white,
           onSecondary: Colors.black38,
+=======
+          onError: const Color.fromRGBO(60, 60, 60, 1),
+          onPrimary: Colors.white,
+          onSecondary: const Color.fromRGBO(245, 244, 249, 1),
+>>>>>>> Stashed changes
           onSurface: Colors.white,
           surface: Colors.black12,
+          inverseSurface: Colors.grey[200],
+          onInverseSurface: Colors.grey[200],
         ),
       ),
     );
@@ -82,8 +133,44 @@ class AppTheme {
         ),
         canvasColor: Color.fromRGBO(103,173,248,1),
 
+<<<<<<< Updated upstream
         appBarTheme: const AppBarTheme(),
         textTheme: const TextTheme(),
+=======
+        dialogTheme: DialogTheme(
+          backgroundColor: Colors.white, // 设置 AlertDialog 的背景颜色
+          titleTextStyle: TextStyle(color: Colors.white), // 设置标题文本的颜色
+          contentTextStyle: TextStyle(color: Colors.black), // 设置内容文本的颜色
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0), // 设置对话框的圆角
+          ),
+        ),
+        backgroundColor: Colors.white,
+        appBarTheme: const AppBarTheme(color: Colors.white),
+        textTheme: const TextTheme(
+          headline1: TextStyle(
+            color: Colors.black, // 设置标题文本颜色为蓝色
+            fontWeight: FontWeight.bold, // 设置字体粗细
+          ),
+          headline2: TextStyle(
+            color: Colors.blue,
+          ),
+          bodyText1: TextStyle(
+            color: Colors.blue, // 设置正文文本颜色为黑色
+            fontSize: 16.0, // 设置字体大小
+          ),
+        ),
+
+        buttonTheme: const ButtonThemeData(
+          buttonColor: Colors.white, // 设置按钮的背景颜色为蓝色
+          textTheme: ButtonTextTheme.primary, // 设置文本主题为主要样式
+        ),
+
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(
+          foregroundColor: Colors.black, // 设置图标颜色为白色
+          backgroundColor: Colors.white, // 设置背景颜色
+        ),
+>>>>>>> Stashed changes
 
         //更改snackbar颜色
         snackBarTheme: const SnackBarThemeData(
@@ -120,11 +207,19 @@ class AppTheme {
           error: Colors.redAccent[700]!,
           brightness: Brightness.light,
           onBackground: Colors.white,
+<<<<<<< Updated upstream
           onError: Colors.white,
           onPrimary: Color(0xFF88ABDA),
           onSecondary: Colors.white,
+=======
+          onError: Color.fromRGBO(180, 180, 249, 1),
+          onPrimary: Colors.black,
+          onSecondary: Colors.blue,
+>>>>>>> Stashed changes
           onSurface: Colors.lightBlueAccent,
           surface: Colors.white,
+          inverseSurface: Colors.grey[700],
+          onInverseSurface: Colors.grey[200],
         ),
       ),
     );

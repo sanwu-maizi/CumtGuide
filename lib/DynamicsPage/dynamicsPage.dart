@@ -37,6 +37,7 @@ class _DynamicsPageState extends State<DynamicsPage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Theme.of(context).backgroundColor,
         body: Center(
           child: Text("该功能暂未开放"),
         )

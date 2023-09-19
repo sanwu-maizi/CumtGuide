@@ -4,7 +4,7 @@ import 'package:cumt_guide/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../HomePage/button/button_index.dart';
+import '../../GuidePage/component/button_index.dart';
 import '../../SettingPage/settings.dart';
 import '../../util/config.dart';
 

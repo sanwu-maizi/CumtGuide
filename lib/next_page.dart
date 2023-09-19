@@ -246,7 +246,87 @@ class _NextPageState extends State<NextPage> with AutomaticKeepAliveClientMixin{
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     FloatingActionButton(
+<<<<<<< Updated upstream
                       backgroundColor: Theme.of(context).canvasColor,
+=======
+                      backgroundColor: Theme.of(context).floatingActionButtonTheme.backgroundColor,
+                      heroTag: "btn1",
+                      onPressed: () {
+                        _debouncer.debounce(const Duration(milliseconds: 500),(){
+                          _controller.animateTo(
+                            0,
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.easeInOut,
+                          );
+                        });
+                      },
+                      shape: const CircleBorder(),
+                      child: const Icon(Icons.arrow_upward),
+                    )
+                  ],
+                )
+            );
+          } else {
+            return Scaffold(
+                backgroundColor: Theme.of(context).backgroundColor,
+                appBar: AppBar(
+                  elevation: 0.3,
+                  backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+                  iconTheme: IconThemeData(
+                    color: Theme.of(context).iconTheme.color,
+                  ),
+                  actions: [
+                    IconButton(
+                      icon: const Icon(Icons.share),
+                      color: Theme.of(context).iconTheme.color,
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              content: SingleChildScrollView( // 使用SingleChildScrollView包裹内容
+                                child: Container(
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        '功能尚未开放，若你需要使用这个功能，请联系我们!\nヾ(❀╹◡╹)ﾉﾞ❀~\n(也可以留下您的联系方式，方便我们及时联络您)',
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              actions: [
+                                TextButton(
+                                  child: const Text('取消'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                TextButton(
+                                  child: const Text('确定'),
+                                  onPressed: () {
+                                    // 执行确定操作
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ],
+                ),
+                body: Center(
+                  child: Image.asset("assets/1.gif"),
+                ),
+                floatingActionButton: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    FloatingActionButton(
+                      foregroundColor: Theme.of(context).floatingActionButtonTheme.foregroundColor,
+                      backgroundColor: Theme.of(context).floatingActionButtonTheme.backgroundColor,
+>>>>>>> Stashed changes
                       heroTag: "btn1",
                       onPressed: () {
                         _controller.animateTo(
